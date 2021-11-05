@@ -9,17 +9,11 @@
 
 ###  相关技术
 
-|      名称      |    版本     |
-| :------------: | :---------: |
-|     Python     |    3.7.0    |
-|     Django     |    3.1.4    |
-|     SQLite     |   3.35.2    |
-|    ECharts     |    5.0.1    |
-|     Tabler     | 1.0.0-beta2 |
-|    SimpleUI    |  2021.1.1   |
-|    Docsify     |   4.11.6    |
-|     Layer      |    3.2.0    |
-| Boostrap Table |   1.18.2    |
+| 名称   | 版本   | 名称           | 版本        | 名称     | 版本     |
+| ------ | ------ | -------------- | ----------- | -------- | -------- |
+| Python | 3.7.0  | ECharts        | 5.0.1       | Docsify  | 4.11.6   |
+| Django | 3.1.4  | Tabler         | 1.0.0-beta2 | SimpleUI | 2021.1.1 |
+| SQLite | 3.35.2 | Boostrap Table | 1.18.2      | Layer    | 3.2.0    |
 
 ### 项目功能
 
