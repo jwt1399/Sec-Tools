@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %} 漏洞扫描 {% endblock %}
+
+{% block css %}
+    <!--Bootsrap Table-->
+    <style>
+        #toolbar {
+          margin: 0;
+        }
+        /*修复分页next按钮布局*/
+       .page-item.page-next, .page-item.page-prev{
+           flex: 0 0 auto;
+       }
+    </style>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-select/bootstarp.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-select/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-table/bootstrap-table.min.css' %}">
+
+{% endblock %}
+
+{% block contents %}
+    <div class="container-xl " >
+        <!-- 产品信息卡片 -->
+        <div class="card card-lg " >
+            <div class="card-body" >
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
+                    </svg>
+                </div>
+                <!--标题&介绍-->
+                <div class="d-flex flex-row justify-content-center" {#style="margin-top: 180px;"#}>
+                    <div class="p-2"><i class="fa fa-bug" style="zoom: 2.2;"></i></div>
+                    <div class="p-2"><h1> 漏洞扫描 </h1></div>
+                    <br>
+                </div>
+                <p class="text-center">扫描Web应用程序中的漏洞，如SQL注入、跨站脚本攻击、身份验证页上的弱口令长度等！
+                    <!-- 提示框 -->
+                    <span class="form-help" data-trigger="hover click" data-container="body" data-toggle="popover" data-placement="right" data-html="true"
+                          data-content="<p>端口扫描是指某些别有用心的人发送一组端口扫描消息，试图以此侵入某台计算机，并了解其提供的计算机网络服务类型。攻击者可以通过它了解到从哪里可探寻到攻击弱点。</p>
+                          <p class='mb-0'><a href='https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/11056182?fr=aladdin'>详情</a></p>">?
+                    </span>
+                </p>
+            </div>
+        </div>
+        <!-- 输入框卡片 -->
+        <div class="card card-lg ">
+            <div class="card-body">
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <circle cx="10" cy="10" r="7" />
+                      <line x1="21" y1="21" x2="15" y2="15" />
+                    </svg>
+                </div>
+                <!-- 输入框 -->
+                <div class="input-icon mb-3 float-left" style="width: 80%">
+                   <span class="input-icon-addon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>
+                    </span>
+                    <input type="text" name="scan_url"  required=""  placeholder="请填写正确的URL" autocomplete="off" class="form-control  form-control-lg">
+                </div>
+                <!-- 按钮 -->
+                <button class="scan-btn btn btn-lg btn-indigo float-left" >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>
+                    漏洞检测
+                </button>
+                <br><br><br><br>
+                <!--检测类型-->
+                <div class="col-lg-12">
+                 <div class="hr-text text-blue">扫描类型</div>
+                 <div class="form-selectgroup " style="width: 100%">
+                    <label class="col-sm-2 form-selectgroup-item">
+                      <input type="radio" name="scan_type" value="full_scan" class="form-selectgroup-input" checked="">
+                      <span class="form-selectgroup-label">全扫描</span>
+                    </label>
+{#                    <label class="col-sm-2 form-selectgroup-item">#}
+{#                      <input type="radio" name="scan_type" value="high_risk_vuln" class="form-selectgroup-input">#}
+{#                      <span class="form-selectgroup-label">高风险漏洞扫描</span>#}
+{#                    </label>#}
+                    <label class="col-sm-2 form-selectgroup-item">
+                      <input type="radio" name="scan_type" value="xss_vuln" class="form-selectgroup-input">
+                      <span class="form-selectgroup-label">XSS漏洞扫描</span>
+                    </label>
+                    <label class="col-sm-2 form-selectgroup-item">
+                      <input type="radio" name="scan_type" value="sqli_vuln" class="form-selectgroup-input">
+                      <span class="form-selectgroup-label">SQL注入漏洞扫描</span>
+                    </label>
+                    <label class="col-sm-2 form-selectgroup-item">
+                      <input type="radio" name="scan_type" value="weak_passwords" class="form-selectgroup-input">
+                      <span class="form-selectgroup-label">弱口令扫描</span>
+                    </label>
+                    <label class="col-sm-2 form-selectgroup-item">
+                        <select id="Middleware" class="form-control selectpicker" data-live-search="true">
+                            <option value="" selected disabled>中间件漏洞</option>
+                            <optgroup label="WebLogic">
+                                <option value="CVE-2018-2628">CVE-2018-2628</option>
+                                <option value="CVE-2018-2894">CVE-2018-2894</option>
+                                <option value="CVE-2020-2551">CVE-2020-2551</option>
+                            </optgroup>
+                            <optgroup label="structs2">
+                                <option value="Struts2_009">Struts2_009</option>
+                                <option value="Struts2-032">Struts2-032</option>
+                            </optgroup>
+                            <optgroup label="Tomcat">
+                                <option value="CVE_2018_7600">CVE-2018-7600</option>
+                            </optgroup>
+                            <optgroup label="jBoss">
+                                <option value="CVE_2017_12149">CVE-2017-12149</option>
+                            </optgroup>
+                            <optgroup label="Drupal">
+                                <option value="CVE_2018_7600">CVE-2018-7600</option>
+                            </optgroup>
+                            <optgroup label="nexus">
+                                <option value="CVE_2020_10199">CVE-2020-10199</option>
+                            </optgroup>
+                        </select>
+                     </label>
+                     <label class="col-sm-1 form-selectgroup-item">
+                      <input type="radio" name="scan_type" value="crawl_only" class="form-selectgroup-input">
+                      <span class="form-selectgroup-label">仅爬取</span>
+                    </label>
+                 </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- echart卡片 -->
+        <div class="row row-cards">
+            <div class="col-lg-6" >
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    漏洞类型
+                  </h3>
+                </div>
+                <div class="card-body">
+                    <div id="piechart" style="height: 300px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                危险等级和数量
+              </h3>
+            </div>
+            <div class="card-body">
+                <div id="linechart" style="height: 300px;"></div>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+     <!-- 扫描清单表格 -->
+    <div class="container-xl" >
+        <div class="card card-sm">
+            <div class="card-body">
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left  bg-azure">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-comet" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M15.5 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z" />
+                      <line x1="4" y1="4" x2="11" y2="11" />
+                      <line x1="9" y1="4" x2="12.5" y2="7.5" />
+                      <line x1="4" y1="9" x2="7.5" y2="12.5" />
+                    </svg>
+                </div>
+                <span class="card-title text-center">
+                扫描列表
+                </span>
+                <!--结果表格-->
+                <div class="table-responsive" id="refresh">
+                    <table class="table text-center" id="table"
+                      data-toggle="table"
+                      data-show-export="true"
+                      data-click-to-select="true"
+                      data-toolbar="#toolbar"
+                      data-search="true"
+                      data-show-refresh="true"
+                      data-auto-refresh="true"
+                      data-show-toggle="true"
+                      data-show-fullscreen="true"
+                      data-show-columns="true"
+                      data-show-columns-toggle-all="true"
+                      data-minimum-count-columns="2"
+                      data-show-pagination-switch="true"
+                      data-pagination="true"
+                      data-id-field="id"
+                      data-page-list="[10, 25, 50, 100, all]"
+                      data-response-handler="responseHandler">
+                        <thead class="table-primary">
+                            <tr>
+                                <th data-sortable="true" data-field="id">ID</th>
+                                <th data-sortable="true" data-field="status">扫描状态</th>
+                                <th data-sortable="true" data-field="target">扫描目标</th>
+                                <th data-sortable="true" data-field="scan_type">扫描类型</th>
+                                <th data-sortable="true" data-field="vuln">漏洞</th>
+                                <th data-sortable="true" data-field="plan">添加时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in data %}
+                                <tr>
+                                    <td >{{ i.id }}</td>
+                                    {% if i.status == 'failed' %}
+                                        <td>
+                                            <a class="btn bg-red-lt btn-block">
+                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="60" height="60" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9" /><path d="M10 10l4 4m0 -4l-4 4" /></svg>
+                                                {{ i.status }}
+                                             </a>
+                                        </td>
+                                    {% elif i.status == 'completed' %}
+                                           <td>
+                                            <a class="btn bg-green-lt btn-block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-check" width="60" height="60" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9" /><path d="M9 12l2 2l4 -4" /></svg>
+                                                {{ i.status }}
+                                             </a>
+                                        </td>
+                                    {% else %}
+                                         <td>
+                                             <a class="btn bg-azure-lt btn-block">
+                                                 <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                                {{ i.status }}
+                                             </a>
+                                         </td>
+                                    {% endif %}
+                                {% if i.target_id == None %}
+                                    <td><a href="#"> {{ i.target }}</a></td>
+                                {% else %}
+                                    <td><a href="vuln_result/{{ i.target_id }}"> {{ i.target }}</a></td>
+                                {% endif %}
+                                    <td ><span class="badge bg-azure " >{{ i.scan_type }}</span></td>
+                                    <td><span class="avatar avatar-rounded text-white" style="background-color: #fa755a">{{ i.vuln.high }}</span><span class="avatar avatar-rounded text-white" style="background-color: #FFDC60" >{{ i.vuln.medium }}</span><span class="avatar avatar-rounded text-white" style="background-color: #23B7E5" >{{ i.vuln.low }}</span><span class="avatar avatar-rounded text-white" style="background-color: #3ecf8e" >{{ i.vuln.info }}</span></td>
+                                    <td class="text-secondary">{{ i.plan }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <!--Bootsrap Select-->
+    <script src="{% static 'plugins/bootstarp-select/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstarp-select/bootstrap-select.min.js' %}"></script>
+
+    <!--Bootsrap Table-->
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table-zh-CN.js' %}"></script>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- 消息弹层组件 依赖jquery -->
+    <script src="{% static 'layer/layer.js' %}"></script>
+    <!-- 点击查询按钮页面向下滑到底部 依赖jquery -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+            $('.scan-btn').click(function(){$('html,body').animate({scrollTop:$('.footer').offset().top}, 100);}); //100ms
+        });
+    </script>
+    <!-- 回车键查询按钮触发 依赖jquery -->
+    <script type="text/javascript">
+            $(document).keydown(function(event) {
+                    if (event.keyCode == 13) {
+                        $(".scan-btn").click();
+                    }
+                });
+        </script>
+    <!-- echart-->
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+    <!--条形图 -->
+    <script>
+        var chartDom_line = document.getElementById('linechart');
+        var myChart_line = echarts.init(chartDom_line);
+        myChart_line.setOption({
+            tooltip: {},
+            legend: {
+               data: ['关键业务', '一般业务'],
+               orient: 'horizontal',
+               top: 'bottom',
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: ['低危漏洞','中危漏洞','高危漏洞']
+            },
+            series: [
+                {
+                    name: '关键业务',
+                    type: 'bar',
+                    data: [1,2,3]
+                },
+                {
+                    name: '一般业务',
+                    type: 'bar',
+                    data: [4,5,6]
+                }
+            ]
+        });
+        $.post('/get_vuln_value', function (data) {
+          myChart_line.setOption({
+            series: [
+            {
+                name: '关键业务',
+                type: 'bar',
+                data: data['high']
+            },
+            {
+                name: '一般业务',
+                type: 'bar',
+                data: [{value: data['normal'][1], itemStyle: {color: '#3ecf8e'}},{value: data['normal'][2], itemStyle: {color: '#FFDC60'}},{value: data['normal'][0], itemStyle: {color: '#fa755a'}}],
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值',itemStyle: {color: ['#FFDC60']},},
+                        {type: 'min', name: '最小值',itemStyle: {color: ['#fa755a']},}
+                    ]
+                },
+                markLine: {
+                   data: [
+                        {type: 'average', name: '平均值',itemStyle: {color: ['#ab47bc']},}
+                    ]
+                },
+            },
+            ]
+          });
+        });
+    </script>
+    <!-- 饼图-->
+    <script>
+    var chartDom = document.getElementById('piechart');
+    var myChart = echarts.init(chartDom);
+    myChart.setOption({
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+        orient: 'horizontal',
+        top: 'bottom',
+        padding: 0,
+        },
+        toolbox: {
+            show: true,
+            right: 50,
+            feature: {
+                dataView: {readOnly: false},
+                saveAsImage: {}, //保存为图片
+            }
+        },
+        series: [
+            {
+                name: '漏洞',
+                type: 'pie',
+                radius: '70%',
+                data: [{value: 1,name:'xss'},{value: 2,name:'sql'},{value: 3,name:'csrf'},{value: 3,name:'ssrf'}],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    });
+    $.post('/get_vuln_rank', function (data) {
+      myChart.setOption({
+        series: [
+          {
+            name: '漏洞',
+            type: 'pie',
+            radius: '65%',
+            data: data,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }]
+
+      });
+      // console.log(data[0]);
+    });
+    </script>
+    <!--按钮事件-->
+    <script>
+        function get_scan_info(ip , scan_type) {
+                $.post('/vuln_scan', {
+                    ip: ip ,
+                    scan_type: scan_type
+                }, function (data) {
+                    if (data.code !== 200) {
+                        layer.msg('添加失败',{icon: 1,offset: '100px',area: ['70px', '70px']});
+                    } else {
+                        layer.msg('添加成功',{icon: 1,offset: '100px',area: ['70px', '70px']});
+                    }
+                    $(".btn-scan").text('重新扫描');
+                    $('.btn-scan').attr('disabled', false);
+                });
+            }
+         function get_Middleware_scan(ip , CVE_id) {
+                $.post('/Middleware_scan', {
+                    ip: ip ,
+                    CVE_id: CVE_id
+                }, function (data) {
+                    if (data.code !== 200) {
+                        layer.msg('添加失败',{icon: 1,offset: '100px',area: ['70px', '70px']});
+                    } else {
+                        layer.msg('添加成功',{icon: 1,offset: '100px',area: ['70px', '70px']});
+
+                    }
+                    $(".btn-scan").text('重新扫描');
+                    $('.btn-scan').attr('disabled', false);
+                });
+            }
+        function start_Middleware_scan(ip, CVE_id){
+            $.ajax({
+                type: "POST",
+                url: '/start_Middleware_scan',
+                timeout: 10000,
+                data: {
+                    ip: ip,
+                    CVE_id: CVE_id
+                }
+            });
+        }
+        $(function () {
+            $(".scan-btn").click(function () {
+                var domain = $('input[name=scan_url]').val();
+                    {#= document.getElementsByName("scan_type")[0].value;#}
+                for (var i = 0; i < document.getElementsByName("scan_type").length; i++) {
+                    if (document.getElementsByName("scan_type")[i].checked) {
+                        var scan_type = document.getElementsByName("scan_type")[i].value;
+                    }
+                }
+                var CVE_id = $('#Middleware option:selected').val();
+                console.log(CVE_id);
+                console.log(domain);
+                {#console.log(scan_type);#}
+                if(CVE_id && domain){
+                    get_Middleware_scan(domain, CVE_id);
+
+                }else{
+                    if (domain) {
+                        get_scan_info(domain, scan_type);
+                    } else {
+                        $('input[name=scan_url]').val('');
+                        layer.msg('请输入正确的URL，\n例如：http://example.com');
+                        $(".scan-btn").text('查询');
+                        $(".scan-btn").attr('disabled', false);
+                    }
+                }
+                start_Middleware_scan(domain, CVE_id);
+            });
+        });
+    </script>
+{% endblock %}

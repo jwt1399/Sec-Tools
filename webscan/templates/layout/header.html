@@ -1,0 +1,183 @@
+{% load static %}
+<header class="navbar navbar-expand-md navbar-light" >
+    <div class="container-xl" >
+            <!-- 标题&LOGO -->
+		    <nav class="navbar inverted ">
+			  <div class="container-fluid" >
+			    <div class="navbar-header">
+			      <a class="navbar-brand" href="{% url 'index' %}">
+			        <img alt="Brand" style="margin-bottom: auto;" height="35px" width="35px"  src="{% static '/img/favicon.ico' %}"><strong>
+                      <h2 style="color: #206bc4; font-size: 30px; "><i>Sec-Tools</i></h2></strong>
+			      </a>
+			    </div>
+			  </div>
+            </nav>
+            <!-- 小屏幕下菜单展开按钮-->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- 登录框 -->
+            <div class="navbar-nav flex-row order-md-last">
+                <div class="login_check nav-item dropdown">
+                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
+                {% if user.is_authenticated %}
+                    <span class="avatar inverted" style="background-image: url({% static 'img/jj.png' %})"></span>
+                    <div class="d-none d-xl-block pl-2">
+                    <div>{{ user.username }}</div>
+                    <div class="mt-1 small text-muted">Security researcher</div>
+                    </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{% url 'login_out' %}">
+                            <i class="fas fa-sign-out-alt" style="zoom: 1.0;padding: 5px;"></i>注销
+                        </a>
+                  </div>
+                {% else %}
+                    <span class="avatar inverted" style="background-image: url({% static 'img/user.jfif' %})"></span>
+                    <div class="d-none d-xl-block pl-2">
+                      <div>游客</div>
+                      <div class="mt-1 small text-muted">点击此处登录</div>
+                    </div>
+                    </a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{% url 'login' %}">
+                        <i class="fas fa-user-circle" style="zoom: 1.0;padding: 5px;"></i>登录
+                    </a>
+                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'register' %}">
+                       <i class="fas fa-id-card" style="zoom: 1.0;padding: 5px;"></i>注册
+                    </a>
+                  </div>
+                {% endif %}
+                </div>
+          </div>
+            <!-- 菜单栏 -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+            <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
+              <ul class="navbar-nav">
+                <li class="nav-item ">
+                  <a class="nav-link"  href="{% url 'index' %}" >
+                      <span class="d-md-none d-lg-inline-block"><i class="fas fa-home" style="zoom: 1.0;padding: 5px;"></i></span>
+                      <span class="nav-link-title">首页</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link " href="{% url 'vulnscan' %}" >
+                    <span class="d-md-none d-lg-inline-block"><i class="fa fa-bug" style="zoom: 1.0;padding: 5px;"></i></span>
+                    <span class="nav-link-title">漏洞扫描</span>
+                  </a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false"  >
+                    <span class="d-md-none d-lg-inline-block"><i class="fas fa-globe-asia" style="zoom: 1.0;padding: 5px;"></i></span>
+                    <span class="nav-link-title">信息收集</span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li >
+                      <a class="dropdown-item" href="{% url 'portscan' %}" >
+                          <span class="d-md-none d-lg-inline-block"><i class="fas fa-search" style="zoom: 1.0;padding: 5px;"></i></span>
+                          <span class="nav-link-title">端口扫描</span>
+                      </a>
+                    </li>
+                      <li >
+                      <a class="dropdown-item" href="{% url 'dir-search' %}" >
+                          <span class="d-md-none d-lg-inline-block"><i class="fas fa-stream" style="zoom: 1.0;padding: 5px;"></i></span>
+                          <span class="nav-link-title">目录识别</span>
+                      </a>
+                    </li>
+                      <li>
+                      <a class="dropdown-item"  href="{% url 'fingerprint' %}" >
+                        <span class="d-md-none d-lg-inline-block"><i class="fas fa-fingerprint" style="zoom: 1.0;padding: 5px;"></i></span>
+                        <span class="nav-link-title">指纹识别</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false"  >
+                    <span class="d-md-none d-lg-inline-block"><i class="fas fa-globe" style="zoom: 1.0;padding: 5px;"></i></span>
+                    <span class="nav-link-title">资产收集</span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li >
+                      <a class="dropdown-item" href="{% url 'subdomain' %}" >
+                          <span class="d-md-none d-lg-inline-block"><i class="fas fa-project-diagram" style="zoom: 1.0;padding: 5px;"></i></span>
+                          <span class="nav-link-title">域名探测</span>
+                      </a>
+                    </li>
+                      <li>
+                          <a class="dropdown-item" href="{% url 'webside' %}" >
+                              <span class="d-md-none d-lg-inline-block"><i class="fas fa-network-wired" style="zoom: 1.0;padding: 5px;"></i></span>
+                              <span class="nav-link-title">旁站探测</span>
+                          </a>
+                      </li>
+                      <li >
+                          <a class="dropdown-item" href="{% url 'infoleak' %}" >
+                              <span class="d-md-none d-lg-inline-block"><i class="fas fa-compass" style="zoom: 1.0;padding: 5px;"></i></span>
+                              <span class="nav-link-title">信息泄露</span>
+                          </a>
+                      </li>
+                  </ul>
+                </li>
+{#                <li class="nav-item dropdown">#}
+{#                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false" >#}
+{#                    <span class="d-md-none d-lg-inline-block"><i class="fas fa-list" style="zoom: 1.0;padding: 5px;"></i></span>#}
+{#                    <span class="nav-link-title">工具</span>#}
+{#                  </a>#}
+{#                  <ul class="dropdown-menu">#}
+{#                    <li >#}
+{#                      <a class="dropdown-item" href="{% url 'about' %}" >#}
+{#                           <span class="d-md-none d-lg-inline-block"><i class="fas fa-tools" style="zoom: 1.0;padding: 5px;"></i></span>#}
+{#                          <span class="nav-link-title">IP查询</span>#}
+{#                      </a>#}
+{#                    </li>#}
+{#                    <li >#}
+{#                      <a class="dropdown-item" href="{% url 'about' %}" >#}
+{#                          <span class="d-md-none d-lg-inline-block"><i class="fas fa-hammer" style="zoom: 1.0;padding: 5px;"></i></span>#}
+{#                          <span class="nav-link-title">SSH爆破</span>#}
+{#                      </a>#}
+{#                    </li>#}
+{#                    <li >#}
+{#                      <a class="dropdown-item" href="{% url 'about' %}" >#}
+{#                          <span class="d-md-none d-lg-inline-block"><i class="fas fa-wrench" style="zoom: 1.0;padding: 5px;"></i></span>#}
+{#                          <span class="nav-link-title">网速查询</span>#}
+{#                      </a>#}
+{#                    </li>#}
+{#                    <li >#}
+{#                      <a class="dropdown-item" href="{% url 'about' %}" >#}
+{#                          <span class="d-md-none d-lg-inline-block"><i class="fas fa-screwdriver" style="zoom: 1.0;padding: 5px;"></i></span>#}
+{#                             <span class="nav-link-title">弱口令检测</span>#}
+{#                      </a>#}
+{#                    </li>#}
+{#                  </ul>#}
+{#                </li>#}
+                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'navigation' %}" >
+                    <span class="d-md-none d-lg-inline-block"><i class="fab fa-internet-explorer" style="zoom: 1.0;padding: 5px;"></i></span>
+                    <span class="nav-link-title">安全导航</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'docs' %}" >
+                      <span class="d-md-none d-lg-inline-block"><i class="fas fa-file-contract" style="zoom: 1.0;padding: 5px;"></i></span>
+                      <span class="nav-link-title">文档</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+{#                  <label class="form-check form-switch " >#}
+{#                     <i class="fas fa-sun"></i>#}
+{#                    <input id="switch" class="form-check-input" type="checkbox" style="margin-left: 80px">#}
+{#                      <i class="fas fa-moon" ></i>#}
+{#                  </label>#}
+{#                    <label class="form-check form-switch "onclick="switchNightMode()" >#}
+{#                     <i class="fas fa-sun"></i>#}
+{#                    <input  class="form-check-input" type="checkbox" style="margin-left: 80px">#}
+{#                      <i class="fas fa-moon" ></i>#}
+{#                  </label>#}
+                    <div id="dark" onclick="switchDarkMode()" style="margin-left: 20px"></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+    </div>
+</header>

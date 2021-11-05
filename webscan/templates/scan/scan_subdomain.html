@@ -1,0 +1,177 @@
+{#@Time:2020/12/27 16:35#}
+{#@Author:简简#}
+{#@File：portscan.html#}
+{#@software:PyCharm#}
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %} 域名探测 {% endblock %}
+
+{% block css %}
+        <style>
+        #toolbar {
+          margin: 0;
+        }
+        /*修复分页next按钮布局*/
+       .page-item.page-next, .page-item.page-prev{
+           flex: 0 0 auto;
+       }
+    </style>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-table/bootstrap-table.min.css' %}">
+{% endblock %}
+
+{% block contents %}
+<div class="container-xl " >
+        <!-- 产品信息卡片 -->
+        <div class="card card-lg " >
+            <div class="card-body" >
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
+                        </svg>
+                  </div>
+                <!--标题&介绍-->
+                <div class="d-flex flex-row justify-content-center" {#style="margin-top: 180px;"#}>
+                    <div class="p-2"><i class="fas fa-project-diagram" style="zoom: 2.2;"></i></div>
+                    <div class="p-2"><h1>域名探测</h1></div>
+                    <br>
+                </div>
+                <p class="text-center">调用api，扫描网站子域名！
+                    <!-- 提示框 -->
+                    <span class="form-help" data-trigger="hover click" data-container="body" data-toggle="popover" data-placement="right" data-html="true"
+                          data-content="<p>端口扫描是指某些别有用心的人发送一组端口扫描消息，试图以此侵入某台计算机，并了解其提供的计算机网络服务类型。攻击者可以通过它了解到从哪里可探寻到攻击弱点。</p>
+                          <p class='mb-0'><a href='https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/11056182?fr=aladdin'>详情</a></p>">?
+                    </span>
+                </p>
+            </div>
+        </div>
+        <!-- 输入框卡片 -->
+        <div class="card card-lg "  {#style="background-color:rgba(0,0,0,0);" #}>
+            <div class="card-body">
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <circle cx="10" cy="10" r="7" />
+                      <line x1="21" y1="21" x2="15" y2="15" />
+                    </svg>
+                </div>
+                <!-- 输入框 -->
+                <div class="input-icon mb-3 float-left" style="width: 80%">
+                   <span class="input-icon-addon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>
+                    </span>
+                    <input type="text" name="domain"  required=""  placeholder="请填写正确的URL" autocomplete="off" class="form-control  form-control-lg">
+                </div>
+                <!-- 按钮 -->
+                <button class="scan-btn btn btn-lg btn-indigo float-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>
+                    域名探测
+                </button>
+            </div>
+        </div>
+        <!-- 扫描结果卡片 -->
+        <div class="scan-result" style="display: none;">
+            <div class="card card-sm " >
+                <div class="card-body">
+                    <!-- 卡片边缘缎带 -->
+                    <div class="ribbon ribbon-top ribbon-left  bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-comet" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M15.5 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z" />
+                          <line x1="4" y1="4" x2="11" y2="11" />
+                          <line x1="9" y1="4" x2="12.5" y2="7.5" />
+                          <line x1="4" y1="9" x2="7.5" y2="12.5" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title text-center">查询结果</h3>
+                        <table class="table table-bordered">
+                            <tbody style="text-align: center;" id="table">
+                            <tr style="text-align: center;">
+                                <td class='table-primary'><strong>编号</strong></td><td class='table-primary'><strong>域名</strong></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+{% endblock %}
+
+{% block js %}
+    <!--Bootsrap Table-->
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table-zh-CN.js' %}"></script>
+    <!-- jquery-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- 消息弹层组件 依赖jquery -->
+    <script src="{% static 'plugins/layer/layer.js' %}"></script>
+    <!-- 点击查询按钮页面向下滑到底部 依赖jquery -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+            $('.scan-btn').click(function(){$('html,body').animate({scrollTop:$('.footer').offset().top}, 100);}); //100ms
+        });
+    </script>
+    <!-- 回车键查询按钮触发 依赖jquery -->
+    <script type="text/javascript">
+            $(document).keydown(function(event) {
+                    if (event.keyCode == 13) {
+                        $(".scan-btn").click();
+                    }
+                });
+        </script>
+    <!-- 查询按钮事件 -->
+    <script type="text/javascript">
+            //获取端口信息
+            function get_subdomain_info(domain) {
+                $.post('/webscan_backend/_subdomain', {
+                    domain: domain
+                }, function (data) {
+                    if (data.code !== 200) {
+                        console.log(domain);
+                        $('.scan-result').hide();
+                        layer.msg(data.data);
+                    } else {
+                        console.log(domain);
+                        let num = 1;
+                        $('tbody tr:first').html("<td class='table-primary'><strong>编号</strong></td><td class='table-primary'><strong>域名</strong></td>");
+                        $.each(data.data, function (index, obj) {   {#遍历对象输出到页面中#}
+                            $('tbody:first').append('<tr><td><span class="btn bg-azure-lt btn-block" style="width: 100px">'+ num.toString() + '</span></td><td><a href=" https://' + obj +'" target="_blank" title="点击跳转"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>' + obj+ '</a></td></tr>');
+                            num += 1;
+                        });
+                        layer.msg('查询成功',{icon: 1,offset: '220px',area: ['70px', '70px']});//查询成功提示框 options:图标，相对位置，宽高
+                    }
+                    //$(".scan-btn").text('重新扫描'); {#设置或返回被选元素的文本内容。#}
+                    console.log(domain);
+                    $(".scan-btn").html('<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>'+'重新扫描');
+                    $('.scan-btn').attr('disabled', false);
+                });
+            }
+            //查询按钮点击触发功能
+            $(function () {
+                $(".scan-btn").click(function () {
+                    $(this).attr('disabled', true);
+                    //$(this).text('请稍等');
+                    $(this).html('请稍等<span class="spinner-border spinner-border-sm me-2" role="status"></span>');
+                    //$(this).html('请稍等 <i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>');
+                    var domain = $('input[name=domain]').val();
+                    {#console.log(domain);#}
+                    if (domain) {
+                        // 校验当前网址是否正确/符合规范
+                        console.log(domain);
+                        $('tbody:first').html('<tr><td><div class="hr-text">多线程扫描，预计等待10s </div><div class="progress progress-lg progress-bar-striped active"><div class="progress-bar progress-bar-indeterminate"></div></div></td></tr>');
+                        $('.scan-result').show();
+                        get_subdomain_info(domain);
+                    } else {
+                        $('input[name=domain]').val('');
+                           layer.msg('请输入正确的URL，\n例如：http://example.com');
+                        $(".scan-btn").text('查询');
+                        $(".scan-btn").html('<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>\n' + '子域名扫描');
+                        $(".scan-btn").attr('disabled', false);
+                }
+                });
+            });
+    </script>
+{% endblock %}

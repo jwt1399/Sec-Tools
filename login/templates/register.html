@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>注册</title>
+    {% block icon %}
+        <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"/>
+		<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"/>
+    {% endblock %}
+    <style>
+        .errorlist {
+            color: red;
+        }
+    </style>
+    {% block css %}
+        <link rel="stylesheet" href="{% static '/admin/simpleui-x/css/register.css' %}?_=2.1">
+{#        <link rel="stylesheet" href="https://unpkg.com/mobi.css/dist/mobi.min.css">#}
+        <link rel="stylesheet" href="{% static 'mobi.min.css' %}">
+    {% endblock %}
+    {% block bg %}
+        <style type="text/css">
+            .bg {
+                background: #f0f2f5;
+                background-image: url('{% static '/admin/simpleui-x/img/bg.svg' %}');
+                min-height: 100%;
+                background-repeat: no-repeat;
+                background-position: 50%;
+                background-size: 100%;
+                padding: 20px 0;
+                position: relative;
+            }
+        </style>
+    {% endblock %}
+</head>
+<body class="bg">
+
+<div class="flex-center">
+    <div class="container">
+        <div class="flex-center">
+            <div class="unit-1-2 unit-1-on-mobile">
+                {% block logo %}
+                    <div class="logo">
+                            <img src="{% static 'img/favicon.ico' %}">
+                    </div>
+                {% endblock %}
+               {% block header %}
+                    <div class="header">Sec-Tools 注册</div>
+                {% endblock %}
+                <form class="form" action="/register/" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <p class="text-muted">{{ field.label_tag }}</p>
+                        {{ field }}
+                        {{ field.errors }}
+                        <!--注册帮助信息-->
+{#                        {% if field.help_text %}#}
+{#                            <p class="help text-small text-muted">{{ field.help_text|safe }}</p>#}
+{#                        {% endif %}#}
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary btn-block">注册</button>
+                </form>
+                <div class="flex-center top-gap text-small">
+                    <a href="/login">已有账号登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 粒子背景 -->
+{% block  particles %}
+        <!--
+            Close login page particles see link:
+            关闭登录页粒子动画请查看：
+            https://github.com/newpanjing/simpleui/blob/master/QUICK.md#关闭登录页粒子动画
+        -->
+        <style type="text/css">
+            #particles-js {
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+                z-index: -1;
+            }
+        </style>
+
+        <!-- particles.js container 粒子背景 -->
+        <div id="particles-js"></div>
+        <script type="text/javascript" src="{% static '/admin/simpleui-x/particles/particles.js' %}"></script>
+        <script type="text/javascript" src="{% static '/admin/simpleui-x/particles/app.js' %}"></script>
+{% endblock %}
+</body>
+</html>
+

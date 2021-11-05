@@ -1,0 +1,283 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sec-Tools</title>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"/>
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" />
+    <link href="{% static 'plugins/welcome/style.min.css' %}" rel="stylesheet">
+</head>
+	<body>
+        <!--标题栏-->
+		<header class="header-global">
+			<nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom">
+				<div class="container">
+					<a class="navbar-brand mr-lg-5" href="#">
+                        <img alt="Brand" style="float: left" src="{% static '/img/favicon.ico' %}"/>
+						<h4 class="text-white">Sec-Tools</h4>
+					</a>
+					<div class="navbar-collapse collapse" id="navbar_global">
+						<ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-lg-auto">
+							<li class="nav-item d-none d-lg-block ml-lg-4">
+                                <a href="{% url 'login' %}" class="btn btn-neutral btn-icon">
+									<span class="btn-inner--icon"><i class="fas fa-user-circle" style="zoom: 1.3"></i></span>
+                                    <span class="nav-link-inner--text">Sign in</span>
+								</a>
+                            </li>
+							<li class="nav-item d-none d-lg-block ml-lg-4">
+                                <a href="{% url 'index' %}" class="btn btn-neutral btn-icon">
+									<span class="btn-inner--icon"><i class="fas fa-running" style="zoom: 1.3"></i></span>
+                                    <span class="nav-link-inner--text">Get Started</span>
+								</a>
+                            </li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<main>
+            <section class="section section-hero section-shaped">
+                <!--背景方框-->
+              <div class="shape shape-style-3 shape-default">
+                <span class="span-150"></span>
+                <span class="span-50"></span>
+                <span class="span-50"></span>
+                <span class="span-75"></span>
+                <span class="span-100"></span>
+                <span class="span-75"></span>
+                <span class="span-50"></span>
+                <span class="span-100"></span>
+                <span class="span-50"></span>
+                <span class="span-100"></span>
+              </div>
+                <!--介绍&登录和进入按钮-->
+              <div class="page-header">
+                <div class="container shape-container d-flex align-items-center py-lg">
+                  <div class="col px-0">
+                    <div class="row align-items-center justify-content-center">
+                      <div class="col-lg-6 text-center">
+                        <h1 class="text-white display-3" >一款在线Web安全渗透工具</h1>
+                        <h3 class="display-5 font-weight-normal text-white" >简单、便捷、高效、界面简单</h3>
+                        <div class="btn-wrapper mt-4">
+                          <a href="{% url 'index' %}" class="btn btn-danger btn-icon mt-3 mb-sm-0">
+                            <span class="btn-inner--icon"><i class="fas fa-play" style="zoom:1.1;"></i></span>
+                            <span class="btn-inner--text">开始吧！</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <!--分割线-->
+              <div class="separator separator-bottom separator-skew zindex-100">
+                <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                  <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
+                </svg>
+              </div>
+            </section>
+            <br><br><hr>
+            <!-- 特点卡片 -->
+            <section class="section section-lg pt-lg-0 mt--200 ">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="row row-grid">
+                                <div class="col-lg-4">
+                                    <div class="card card-lift--hover shadow border-0">
+                                        <div class="card-body py-5">
+                                            <div class="icon icon-shape icon-shape-primary rounded-circle mb-4">
+                                                <i class="fas fa-user-shield"></i>
+                                            </div>
+                                            <h6 class="text-primary text-uppercase">安全高效</h6>
+                                            <p class="description mt-3">全站采用HTTPS加密，账号采用HASH加密，保护您的身份信息。</p>
+                                            <div>
+                                                <span class="badge badge-pill badge-primary">安全</span>
+                                                <span class="badge badge-pill badge-primary">高效</span>
+                                                <span class="badge badge-pill badge-primary">专业</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="card card-lift--hover shadow border-0">
+                                        <div class="card-body py-5">
+                                            <div class="icon icon-shape icon-shape-success rounded-circle mb-4">
+                                                <i class="fa fa-fighter-jet"></i>
+                                            </div>
+                                            <h6 class="text-success text-uppercase">快速稳定</h6>
+                                            <p class="description mt-3">全自动均匀负载，多节点极速体验，各种流媒体网站解锁服务。</p>
+                                            <div>
+                                                <span class="badge badge-pill badge-success">简单</span>
+                                                <span class="badge badge-pill badge-success">便捷</span>
+                                                <span class="badge badge-pill badge-success">方便</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="card card-lift--hover shadow border-0">
+                                        <div class="card-body py-5">
+                                            <div class="icon icon-shape icon-shape-warning rounded-circle mb-4">
+                                                <i class="fa fa-puzzle-piece"></i>
+                                            </div>
+                                            <h6 class="text-warning text-uppercase">完美适配</h6>
+                                            <p class="description mt-3">响应式布局，UI 适配手机、平板、电脑，给用户最好的使用体验。</p>
+                                            <div>
+                                                <span class="badge badge-pill badge-warning">手机</span>
+                                                <span class="badge badge-pill badge-warning">平板</span>
+                                                <span class="badge badge-pill badge-warning">电脑</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 使用人群卡片 -->
+            <section class="section features-6 bg-secondary">
+                <div class="container">
+                    <div class="row align-items-center">
+                      <div class="col-lg-6">
+                        <div class="info info-horizontal info-hover-primary">
+                          <div class="description pl-4">
+                            <h5 class="title" _msthash="1861639" _msttexthash="16119259">对于开发人员</h5>
+                            <p _msthash="1827722" _msttexthash="480973259">现在是时候让一切变得美好了。这个世界上的人因为伟大而回避他人。因为它是鲜艳的颜色。脱颖而出。但现在是时候了。</p>
+                          </div>
+                        </div>
+                        <div class="info info-horizontal info-hover-primary mt-5">
+                          <div class="description pl-4">
+                            <h5 class="title" _msthash="1862263" _msttexthash="16508739">对于研究员</h5>
+                            <p _msthash="1828346" _msttexthash="448367140">我一生中真正想做的事，没有什么是我不能做到的。这是我的技能。除了学习的能力，我在任何方面都没有特别的天赋。</p>
+                          </div>
+                        </div>
+                        <div class="info info-horizontal info-hover-primary mt-5">
+                          <div class="description pl-4">
+                            <h5 class="title" _msthash="1862887" _msttexthash="15779790">对于初学者</h5>
+                            <p _msthash="1828970" _msttexthash="667248582">不要害怕犯错，因为你不能从赞美中学到任何东西。如果我所做的一切都失败了-事实并非如此。</p>
+                          </div>
+                        </div>
+          </div>
+          <div class="col-lg-6 col-10 mx-md-auto">
+            <img class="ml-lg-5" src="{% static 'plugins/welcome/ill.png' %}" width="100%" title="" style="">
+          </div>
+        </div>
+                </div>
+            </section>
+            <!-- 界面卡片-->
+            <section class="section section-lg ">
+                <div class="container ">
+                    <div class="row row-grid align-items-center">
+                        <div class="col-md-6 order-md-2">
+                            <img src="{% static 'plugins/welcome/promo.png' %}" class="img-fluid floating">
+                        </div>
+                        <div class="col-md-6 order-md-1">
+                            <div class="pr-md-5">
+                                <div class="icon icon-lg icon-shape icon-shape-success shadow rounded-circle mb-5">
+                                    <i class="fa fa-cog fa-spin fa-1x fa-fw"></i>
+                                </div>
+                                <h3>简单的操作界面</h3>
+                                <p>使用简单清新的界面布局，给你带来舒适的使用体验。工具丰富，你先想要的这里都有！</p>
+                                <ul class="list-unstyled mt-5">
+                                    <li class="py-2">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <div class="badge badge-circle badge-success mr-3">
+                                                    <i class="fas fa-hourglass-half"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">即时更新</h6>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="py-2">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <div class="badge badge-circle badge-success mr-3">
+                                                    <i class="fas fa-sync-alt"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">流畅操作</h6>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="py-2">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <div class="badge badge-circle badge-success mr-3">
+                                                    <i class="fas fa-bullseye"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">完善体验</h6>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--页脚-->
+            <footer class="footer">
+                <div class="container">
+                    <div class="row row-grid align-items-center mb-5">
+                      <div class="col-lg-6">
+                        <h3 class="text-primary font-weight-light mb-2" _msthash="1348009" _msttexthash="35092200">感谢您支持我们！</h3>
+                        <h4 class="mb-0 font-weight-light" _msthash="1349283" _msttexthash="76072516">您可以通过右边方式联系我们获取最新动态。</h4>
+                      </div>
+                      <div class="col-lg-6 text-lg-center btn-wrapper">
+                        <a target="_blank" href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1019084218" rel="nofollow"  class="btn btn-icon-only  rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+                          <span class="btn-inner--icon"><i class="fab fa-qq"></i></span>
+                        </a>
+                        <a target="_blank" href="mailto:Sec_Tools@163.com" rel="nofollow" class="btn btn-icon-only rounded-circle" data-toggle="tooltip" data-original-title="Follow us" >
+                          <span class="btn-inner--icon"><i class="fas fa-envelope"></i></span>
+                        </a>
+                        <a target="_blank" href="https://github.com/jwt1399" rel="nofollow" class="btn btn-icon-only  rounded-circle" data-toggle="tooltip" data-original-title="Star on Github">
+                          <span class="btn-inner--icon"><i class="fab fa-github"></i></span>
+                        </a>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row align-items-center justify-content-md-between">
+                      <div class="col-md-6">
+                        <div class="copyright" _msthash="1457170" _msttexthash="25997140"> Copyright © 2020 <a href="https://jwt1399.top" target="_blank" _istranslated="1">简简 </a>All rights reserved.</div>
+                      </div>
+                      <div class="col-md-6">
+                        <ul class="nav nav-footer justify-content-end">
+                          <li class="nav-item">
+                            <a href="{% url 'docs' %}" class="nav-link" target="_blank" _msthash="1881139" _msttexthash="11453351">Documentation</a>
+                          </li>
+                          <li class="nav-item">
+                            <a href="{% url 'about' %}" class="nav-link" target="_blank" _msthash="1881854" _msttexthash="9552686">FAQ</a>
+                          </li>
+                          <li class="nav-item">
+                            <a href="https://github.com/jwt1399" class="nav-link" target="_blank" _msthash="1882569" _msttexthash="4381390">Source code</a>
+                          </li>
+                          <li class="nav-item scroll_top">
+                                    <svg class="rounded-circle" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-bar-to-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="4" stroke="#00abfb" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="10" x2="12" y2="20" /><line x1="12" y1="10" x2="16" y2="14" /><line x1="12" y1="10" x2="8" y2="14" /><line x1="4" y1="4" x2="20" y2="4" /></svg>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+            </footer>
+		</main>
+
+    <!-- 回到顶部 -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript">
+    jQuery(document).ready(function($){
+    $('.scroll_top').click(function(){$('html,body').animate({scrollTop: '0px'},100);}); //100毫秒
+    });
+</script>
+	</body>
+</html>

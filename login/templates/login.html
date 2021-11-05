@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    {% block title %}
+        <title>Sec-Tool 登录</title>
+    {% endblock %}
+    {% block icon %}
+        <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"/>
+		<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"/>
+    {% endblock %}
+
+    {% include 'admin/includes/css-part.html' %}
+
+    {% block css %}
+        <link rel="stylesheet" href="{% static '/admin/simpleui-x/css/login.css' %}?_=2.1">
+{#        <link rel="stylesheet" href="https://unpkg.com/mobi.css/dist/mobi.min.css">#}
+        <link rel="stylesheet" href="{% static 'mobi.min.css' %}">
+    {% endblock %}
+    {% block bg %}
+        <style type="text/css">
+            .bg {
+                background: #f0f2f5;
+                background-image: url('{% static '/admin/simpleui-x/img/bg.svg' %}');
+                min-height: 100%;
+                background-repeat: no-repeat;
+                background-position: 50%;
+                background-size: 100%;
+                padding: 20px 0;
+                position: relative;
+            }
+        </style>
+    {% endblock %}
+
+</head>
+<body class="bg">
+
+<div class="login-main">
+    {% block logo %}
+        <div class="logo">
+                <img src="{% static 'img/favicon.ico' %}">
+        </div>
+    {% endblock %}
+
+    {% block header %}
+        <div class="header">Sec-Tools 登录</div>
+    {% endblock %}
+
+    {#错误警告提示#}
+    <el-alert title="{{ error }}" type="error" style="background-color: {{color}};"></el-alert>
+
+    {% block form %}
+        <form class="simpleui-form" action="/login/" method="post" id="login-form">
+            {% csrf_token %}
+
+            <div class="simpleui-input-inline">
+                <el-input prefix-icon="fas fa-user" v-model="username" name="username"
+                          placeholder="用户名"></el-input>
+            </div>
+            <div class="simpleui-input-inline">
+                <el-input prefix-icon="fas fa-lock" type="password" v-model="password" name="password"
+                          @keyup.enter.native="login()"
+                          placeholder="密码" show-password></el-input>
+            </div>
+
+            <div class="simpleui-input-inline login-btn">
+                <el-button :icon="loading?'el-icon-loading':''" @click="login()"
+                           type="primary">登录</el-button>
+            </div>
+            <div>
+                <a href="{% url 'register' %}" class="register" style="float: left; margin-right: 10px; " >注册</a>
+                <a href="{% url "password_reset_recover" %}" class="register" style="float: right; margin-right: 0px; " >忘记密码</a>
+            </div>
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+    {% endblock %}
+</div>
+
+{% include 'admin/includes/js-part.html' %}
+
+<script type="text/javascript" src="{% static '/admin/simpleui-x/js/login.js' %}?_=3.3"></script>
+
+{% block  particles %}
+
+        <!--
+            Close login page particles see link:
+            关闭登录页粒子动画请查看：
+            https://github.com/newpanjing/simpleui/blob/master/QUICK.md#关闭登录页粒子动画
+        -->
+        <style type="text/css">
+            #particles-js {
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+                z-index: -1;
+            }
+        </style>
+        <!-- particles.js container -->
+        <div id="particles-js"></div>
+        <script type="text/javascript" src="{% static '/admin/simpleui-x/particles/particles.js' %}"></script>
+        <script type="text/javascript" src="{% static '/admin/simpleui-x/particles/app.js' %}"></script>
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% load static %}
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <meta name="msapplication-TileColor" content="#206bc4"/>
+    <meta name="theme-color" content="#206bc4"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="HandheldFriendly" content="True"/>
+    <meta name="MobileOptimized" content="320"/>
+    <meta name="robots" content="noindex,nofollow,noarchive"/>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"/>
+    <!-- Libs CSS -->
+    <link href="{% static '/plugins/tabler/libs/jqvmap/dist/jqvmap.min.css' %}" rel="stylesheet"/>
+    <link href="{% static '/plugins/tabler/libs/selectize/dist/css/selectize.css' %}" rel="stylesheet"/>
+    <link href="{% static '/plugins/tabler/libs/fullcalendar/core/main.min.css' %}" rel="stylesheet"/>
+    <link href="{% static '/plugins/tabler/libs/fullcalendar/daygrid/main.min.css' %}" rel="stylesheet"/>
+    <link href="{% static '/plugins/tabler/libs/fullcalendar/timegrid/main.min.css' %}" rel="stylesheet"/>
+    <link href="{% static '/plugins/tabler/libs/fullcalendar/list/main.min.css' %}" rel="stylesheet"/>
+    <link href="{% static '/plugins/tabler/libs/flatpickr/dist/flatpickr.min.css' %}" rel="stylesheet"/>
+    <link href="{% static '/plugins/tabler/libs/nouislider/distribute/nouislider.min.css' %}" rel="stylesheet"/>
+    <!-- Tabler Core -->
+    <link href="{% static '/plugins/tabler/css/tabler.min.css' %}" rel="stylesheet"/>
+    <!-- Tabler Plugins -->
+{#    <link href="{% static '/plugins/tabler/css/tabler-flags.min.css' %}" rel="stylesheet"/>#}
+{#    <link href="{% static '/plugins/tabler/css/tabler-payments.min.css' %}" rel="stylesheet"/>#}
+    <link href="{% static '/plugins/tabler/css/tabler-buttons.min.css' %}" rel="stylesheet"/>
+    <link href="{% static '/plugins/tabler/css/demo.min.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static '/css/font-awesome.css' %}">
+{#    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.2/css/all.css" rel="stylesheet">#}
+    <!-- 自定义的css -->
+    {% block css %}{% endblock %}
+    <!-- 粒子效果 -->
+    <style type="text/css">
+        #particles-js {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            z-index: -1;
+        }
+    </style>
+    <!--黑夜模式-->
+    <style>
+        .dark-mode{
+            /*样式反转*/
+            filter: invert(1) hue-rotate(180deg);
+        }
+        .invert{
+            filter: invert(1) hue-rotate(180deg);
+        }
+    </style>
+</head>
+  <body class="antialiased " style="background-color: #f0f2f5;">
+    <div class="page" style="background-image: url({% static 'img/bg.svg' %})">
+        <!--导航栏-->
+        {% include 'layout/header.html' %}
+        <!-- 主要内容 -->
+        <div class="content" >
+        {% block contents %}{% endblock %}
+        </div>
+        <!-- 页脚 -->
+       {% include 'layout/footer.html' %}
+    </div>
+    <!-- particles.js container 粒子背景 -->
+    <div id="particles-js"></div>
+    <!-- 粒子背景 -->
+    <script type="text/javascript" src="{% static '/plugins/particles/particles.js' %}"></script>
+    <script type="text/javascript" src="{% static '/plugins/particles/app.js' %}"></script>
+    <!-- Libs JS -->
+    <script src="{% static '/plugins/tabler/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static '/plugins/tabler/libs/jquery/dist/jquery.slim.min.js' %}"></script>
+    <script src="{% static '/plugins/tabler/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+    <script src="{% static '/plugins/tabler/libs/jqvmap/dist/jquery.vmap.min.js' %}"></script>
+    <script src="{% static '/plugins/tabler/libs/jqvmap/dist/maps/jquery.vmap.world.js' %}"></script>
+    <script src="{% static '/plugins/tabler/libs/jqvmap/dist/maps/jquery.vmap.usa.js' %}"></script>
+    <script src="{% static '/plugins/tabler/libs/jqvmap/dist/maps/continents/jquery.vmap.europe.js' %}"></script>
+    <script src="{% static '/plugins/tabler/libs/peity/jquery.peity.min.js' %}"></script>
+    <!-- Tabler Core -->
+    <script src="{% static '/plugins/tabler/js/tabler.min.js' %}"></script>
+     <!--夜间模式-->
+{#    <script>#}
+{#    let toggle = document.querySelector("#switch");#}
+{#    toggle.addEventListener("click",() =>{#}
+{#        document.documentElement.classList.toggle("dark-mode");#}
+{#        document.querySelectorAll(".inverted").forEach((res) =>{#}
+{#            res.classList.toggle("invert");#}
+{#        });#}
+{#    });#}
+{# </script>#}
+
+    <!--夜间模式-->
+    <script>
+      var isNight = new Date().getHours() >= 22 || new Date().getHours() < 7;
+      if( matchMedia('(prefers-color-scheme: dark)').matches || isNight || localStorage.getItem('dark') === '1') {
+        if(!(isNight&&localStorage.getItem('noDark') === '1')) {
+          document.documentElement.classList.add('dark-mode');
+          document.querySelectorAll(".inverted").forEach((res) =>{res.classList.toggle("invert");});
+        }
+      }
+      document.getElementById('dark').innerHTML = document.querySelector("body").classList.contains("dark")?"🌜":"🌞";
+
+      //点击事件
+      function switchDarkMode() {
+      if ($('html').hasClass('dark-mode')) {
+        $("#dark").html("🌞");
+        document.documentElement.classList.remove('dark-mode');
+        document.querySelectorAll(".inverted").forEach((res) =>{res.classList.toggle("invert");});
+        localStorage.setItem('noDark', '1');
+        localStorage.setItem('dark', '0');
+      } else {
+        $("#dark").html("🌜");
+        document.documentElement.classList.add('dark-mode');
+        document.querySelectorAll(".inverted").forEach((res) =>{res.classList.toggle("invert");});
+        localStorage.setItem('dark', '1');
+        localStorage.setItem('dark', '1');
+        localStorage.setItem('noDark', '0');
+      }
+    }
+</script>
+    {% block js %}{% endblock %}
+  </body>
+</html>

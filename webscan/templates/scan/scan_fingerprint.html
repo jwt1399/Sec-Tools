@@ -1,0 +1,666 @@
+{#@Time:2021/01/06 17:55#}
+{#@Author:简简#}
+{#@File：fingerprint.html#}
+{#@software:PyCharm#}
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}指纹识别{% endblock %}
+
+
+{% block css %}
+    <!--Bootsrap Table-->
+    <style>
+        #toolbar {
+          margin: 0;
+        }
+        /*修复分页next按钮布局*/
+       .page-item.page-next, .page-item.page-prev{
+           flex: 0 0 auto;
+       }
+    </style>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-table/bootstrap-table.min.css' %}">
+{% endblock %}
+
+{% block contents %}
+<div class="container-xl " >
+        <!-- 产品信息卡片 -->
+        <div class="card card-lg " >
+            <div class="card-body" >
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
+                        </svg>
+                  </div>
+                <!--标题&介绍-->
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="p-2"><i class="fas fa-search " style="zoom: 2.2;"></i></div>
+                    <div class="p-2"><h1> 指纹识别 </h1></div>
+                    <br>
+                </div>
+                <p class="text-center">获取网站的IP、指纹、中间件、操作系统等基础信息！
+                    <!-- 提示框 -->
+                    <span class="form-help" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="right" data-html="true"
+                          data-content="<p>端口扫描是指某些别有用心的人发送一组端口扫描消息，试图以此侵入某台计算机，并了解其提供的计算机网络服务类型。攻击者可以通过它了解到从哪里可探寻到攻击弱点。</p>
+                          <p class='mb-0'><a href='https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/11056182?fr=aladdin'>详情</a></p>">?
+                    </span>
+                </p>
+            </div>
+        </div>
+        <!-- 输入框卡片 -->
+        <div class="card card-lg scroll_input">
+            <div class="card-body">
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <circle cx="10" cy="10" r="7" />
+                      <line x1="21" y1="21" x2="15" y2="15" />
+                    </svg>
+                </div>
+                <!-- 输入框 -->
+                <div class="input-icon mb-3 float-left" style="width: 80%">
+                   <span class="input-icon-addon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>
+                    </span>
+                     <input type="text" name="siteurl" minlength="11" maxlength="39" required=""  placeholder="请输入正确的URL" autocomplete="off" class="form-control  form-control-lg">
+                </div>
+                <!-- 按钮 -->
+                <button class="scan-btn btn btn-lg btn-indigo float-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>
+                    指纹查询
+                </button>
+            </div>
+        </div>
+        <!-- 扫描结果卡片 -->
+        <div class="scan-result" style="display: none;">
+            <div class="card card-sm " >
+                <div class="card-body">
+                    <!-- 卡片边缘缎带 -->
+                    <div class="ribbon ribbon-top ribbon-left  bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-comet" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15.5 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z" /><line x1="4" y1="4" x2="11" y2="11" /><line x1="9" y1="4" x2="12.5" y2="7.5" /><line x1="4" y1="9" x2="7.5" y2="12.5" /></svg>
+                    </div>
+                    <h3 class="card-title text-center">查询结果</h3>
+                        <table class="table table-bordered">
+                            <tbody style="text-align: center;">
+                                <tr style="text-align: center;">
+                                    <td class="table-primary">域名</td>
+                                    <td class="domain_name">
+                                    <span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>请稍等
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-primary">源IP</td>
+                                    <td class="source_ip">
+                                    <span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>请稍等
+                                </td>
+                            </tr>
+                                <tr>
+                                <td class="table-primary">CDN</td>
+                                <td class="cdn_isexsit">
+                                    <span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>请稍等
+                                </td>
+                            </tr>
+                                <tr>
+                                <td class="table-primary">语言</td>
+                                <td class="script_lang">
+                                    <span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>请稍等
+                                </td>
+                            </tr>
+                                <tr>
+                                <td class="table-primary">WAF</td>
+                                <td class="waf_name">
+                                    <span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>请稍等
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td class="table-primary">操作系统</td>
+                                    <td class="server_os">
+                                        <span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>请稍等
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-primary">指纹框架</td>
+                                    <td class="cms_finger">
+                                        <span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>请稍等
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-primary">Web容器</td>
+                                    <td class="server_middleware">
+                                        <span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>请稍等
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-primary">网站权重</td>
+                                    <td class="site_weight">
+                                        <span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>请稍等
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-primary">域名信息</td>
+                                    <td class="whois">
+                                        <span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>请稍等
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+</div>
+    <!-- 常见指纹 -->
+    <div class="container-xl" >
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+              <div class="col">
+                <h2 class="page-title text-center">
+                  常见指纹
+                </h2>
+              </div>
+            </div>
+        </div>
+        <header class="card navbar navbar-expand-md navbar-light ">
+            <ul class="nav nav-tabs" style="font-size: 15px;text-align:center;">
+                <li class="nav-item ">
+                    <a class="nav-link active" data-toggle="tab" href="#webconstainer">Web容器</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link " data-toggle="tab" href="#cms">CMS</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#os">操作系统</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#jsku">JS库</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#cssku">CSS库</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#db">数据库</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#webframe">Web框架</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#cdn">CDN</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#misc">杂项</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#language">编程语言</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#font">字体库</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#appconstainer">应用容器</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="tab" href="#datastatistics">数据统计</a>
+                </li>
+            </ul>
+        </header>
+        <div class="tab-content">
+            <div class="tab-pane fade active show" id="webconstainer">
+                 <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 1 %}
+                            <div class="col-md-6 col-xl-3">
+                                  <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                      <div class="mb-3">
+                                        <img class="inverted" src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px" />
+                                      </div>
+                                      <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                      <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{cms_item.category}}</a>
+                                  </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade " id="cms">
+                 <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 2 %}
+                            <div class="col-md-6 col-xl-3">
+                                  <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                      <div class="mb-3">
+                                        <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px" />
+                                      </div>
+                                      <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                      <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{cms_item.category}}</a>
+                                  </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="os">
+                 <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 3 %}
+                            <div class="col-md-6 col-xl-3">
+                                  <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                      <div class="mb-3">
+                                        <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px" />
+                                      </div>
+                                      <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                      <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{cms_item.category}}</a>
+                                  </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="jsku">
+                <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 4 %}
+                            <div class="col-md-6 col-xl-3">
+                                <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px"/>
+                                        </div>
+                                        <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                        <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{ cms_item.category }}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="cssku">
+                 <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 5 %}
+                            <div class="col-md-6 col-xl-3">
+                                  <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                      <div class="mb-3">
+                                        <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px" />
+                                      </div>
+                                      <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                      <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{cms_item.category}}</a>
+                                  </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="db">
+                <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 6 %}
+                            <div class="col-md-6 col-xl-3">
+                                <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px"/>
+                                        </div>
+                                        <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                        <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{ cms_item.category }}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="webframe">
+                 <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 7 %}
+                            <div class="col-md-6 col-xl-3">
+                                  <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                      <div class="mb-3">
+                                        <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px" />
+                                      </div>
+                                      <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                      <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{cms_item.category}}</a>
+                                  </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="cdn">
+                <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 8 %}
+                            <div class="col-md-6 col-xl-3">
+                                <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px"/>
+                                        </div>
+                                        <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                        <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{ cms_item.category }}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="misc">
+                 <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 9 %}
+                            <div class="col-md-6 col-xl-3">
+                                  <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                      <div class="mb-3">
+                                        <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px" />
+                                      </div>
+                                      <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                      <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{cms_item.category}}</a>
+                                  </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="language">
+                 <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 10 %}
+                            <div class="col-md-6 col-xl-3">
+                                  <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                      <div class="mb-3">
+                                        <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px" />
+                                      </div>
+                                      <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                      <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{cms_item.category}}</a>
+                                  </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="font">
+                <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 11 %}
+                            <div class="col-md-6 col-xl-3">
+                                <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px"/>
+                                        </div>
+                                        <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                        <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{ cms_item.category }}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="appconstainer">
+                <div class="row row-cards">
+                    {% for cms_item in cms_items %}
+                        {% if cms_item.category_id == 12 %}
+                            <div class="col-md-6 col-xl-3">
+                                <div class="card" style="height: 248px">
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <img src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px"/>
+                                        </div>
+                                        <div class="card-title mb-1">{{ cms_item.name }}</div>
+                                        <div class="text-muted">{{ cms_item.desc }}</div>
+                                    </div>
+                                    <a href="#" class="card-btn ">{{ cms_item.category }}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="datastatistics">
+                <div class="row row-cards">
+                    <div class="col-md-6 col-xl-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div id="chart-demo-pie" class="chart-lg"></div>
+                      </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 常见指纹查询表 -->
+    <div class="container-xl" >
+        <!--扫描结果卡片-->
+        <div class="card card-sm">
+        <div class="card-body">
+            <!-- 卡片边缘缎带 -->
+            <div class="ribbon ribbon-top ribbon-left  bg-azure">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-comet" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15.5 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z" /><line x1="4" y1="4" x2="11" y2="11" /><line x1="9" y1="4" x2="12.5" y2="7.5" /><line x1="4" y1="9" x2="7.5" y2="12.5" /></svg>
+            </div>
+            <span class="card-title text-center">
+            常见指纹查询表
+            </span>
+            <!--结果表格-->
+            <div class="table-responsive" id="refresh">
+                <table class="table text-center" id="table"
+                  data-toggle="table"
+                  data-show-export="true"
+                  data-click-to-select="true"
+                  data-toolbar="#toolbar"
+                  data-search="true"
+                  data-show-refresh="true"
+                  data-auto-refresh="true"
+                  data-show-toggle="true"
+                  data-show-fullscreen="true"
+                  data-show-columns="true"
+                  data-show-columns-toggle-all="true"
+                  data-minimum-count-columns="2"
+                  data-show-pagination-switch="true"
+                  data-pagination="true"
+                  data-id-field="id"
+                  data-page-list="[10, 25, 50, 100, all]"
+                  data-response-handler="responseHandler">
+                    <thead class="table-primary">
+                        <tr>
+                            <th data-sortable="true">组件名称</th>
+                            <th>LOGO</th>
+                            <th data-sortable="true">介绍</th>
+                            <th data-sortable="true">类别</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for cms_item in cms_items %}
+                        <tr>
+                            <td >{{ cms_item.name }}</td>
+                            <td ><img class="inverted" src="{{ MEDIA_URL }}{{ cms_item.icon }}" width="50px" height="50px" /></td>
+                            <td >{{ cms_item.desc }}</td>
+                            <td class="text-success"><span class="badge bg-green">{{ cms_item.category }}</span></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <!--Bootsrap Table-->
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table-zh-CN.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- 消息弹层组件 依赖jquery -->
+    <script src="{% static 'plugins/layer/layer.js' %}"></script>
+    <!-- 点击查询按钮页面向下滑到输入框卡片处 依赖jquery -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+            $('.scan-btn').click(function(){$('html,body').animate({scrollTop:$('.scroll_input').offset().top}, 100);}); //100ms
+        });
+    </script>
+    <!-- 回车键查询按钮触发 依赖jquery -->
+    <script>
+            $(document).keydown(function(event) {
+                    if (event.keyCode == 13) {
+                        $(".scan-btn").click();
+                    }
+                });
+        </script>
+    <!-- 查询按钮事件 -->
+    <script>
+        function get_base_info(domain){
+        // 发起网络请求
+        $.post('/webscan_backend/baseinfo',{
+            url: domain
+        }, function(data){
+            $('.domain_name').text(data.data.domain || 'error');
+            $('.script_lang').text(data.data.language || 'error');
+            $('.server_os').text(data.data.os || 'error');
+            $('.server_middleware').text(data.data.server || 'error');
+            $('.domain_name').text(data.data.domain || 'error');
+            $('.source_ip').html(data.data.ip? data.data.ip.join('<br/>'): 'error');
+            $('.whois').html(' <a href="http://whois.chinaz.com/' + (data.data.domain || 'www.qq.com') + '" target="_blank"> <button class="btn btn btn-azure">点击查看</button></a>');
+            layer.msg(data.msg);
+
+            $(".scan-btn").text('重新查询');
+            $('.scan-btn').attr('disabled', false);
+        });
+    }
+        function get_site_weight(domain){
+        $.post('/webscan_backend/webweight',{
+            url: domain
+        }, function(data){
+            $('.site_weight').text(data["data"]);
+        });
+
+    }
+        function get_site_iscdn(domain){
+            $.post('/webscan_backend/isexistcdn',{
+                url: domain
+            }, function(data){
+                $('.cdn_isexsit').text(data.data);
+            });
+
+        }
+        function get_site_waf(domain) {
+            $.post('/webscan_backend/iswaf',{
+                url: domain
+            }, function(data){
+                $('.waf_name').text(data.data);
+            });
+        }
+        function get_site_cms(domain) {
+            $.post('/webscan_backend/whatcms',{
+                url: domain
+            }, function(data){
+                $('.cms_finger').html(data.data);
+            });
+        }
+        $(function () {
+                $(".scan-btn").click(function () {
+                    $(this).attr('disabled', true);
+                    if($(this).text() == '重新查询') {
+                        // 更新Loading...
+                        $("td:odd").html('<span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>正在重新扫描');
+                    }
+                    //$(this).text('请稍等');
+                    //$('tbody').html('<tr class="tip-test"><td><div class="hr-text">多线程扫描，预计等待10s </div><div class="progress progress-lg progress-bar-striped active"><div class="progress-bar progress-bar-indeterminate"></div></div></td></tr>');
+                    $(this).html('请稍等<span class="spinner-border spinner-border-sm me-2 " role="status"></span>');
+                    let domain = $('input[name=siteurl]').val();
+                    if(domain){
+                        // 校验当前网址是否正确/符合规范
+                        // coding ...
+                        //$("td:odd").html('<span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>');
+                        //$('tbody').html('<tr class="tip-test"><td><div class="hr-text">多线程扫描，预计等待10s </div><div class="progress progress-lg progress-bar-striped active"><div class="progress-bar progress-bar-indeterminate"></div></div></td></tr>');
+                        $('.scan-result').show();
+                        get_site_weight(domain);
+                        get_site_iscdn(domain);
+                        get_site_cms(domain);
+                        get_base_info(domain);
+                        get_site_waf(domain);       //最后请求，避免可能导致waf被拦截站点不可访问的问题
+                    } else {
+                        $('input[name=siteurl]').val('');
+                        layer.msg('请输入正确的网址，\n例如：http://example.com');
+                        $(".scan-btn").text('重新查询');
+                        $(".scan-btn").attr('disabled', false);
+                    }
+
+                })
+        });
+</script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        window.ApexCharts && (new ApexCharts(document.getElementById('chart-demo-pie'), {
+            chart: {
+                type: "donut",
+                fontFamily: 'inherit',
+                height: 240,
+                sparkline: {
+                    enabled: true
+                },
+                animations: {
+                    enabled: false
+                },
+            },
+            fill: {
+                opacity: 1,
+            },
+            series: [{% for category in categories %}{{category.get_items}},{% endfor %}],
+            labels: [{% for category in categories %}"{{category.name}}",{% endfor %}],
+            grid: {
+                strokeDashArray: 4,
+            },
+            colors: ["#206bc4", "#79a6dc", "#d2e1f3", "#e9ecf1"],
+            legend: {
+                show: true,
+                position: 'bottom',
+                offsetY: 12,
+                markers: {
+                    width: 10,
+                    height: 10,
+                    radius: 100,
+                },
+                itemMargin: {
+                    horizontal: 8,
+                    vertical: 8
+                },
+            },
+            tooltip: {
+                fillSeriesColor: false
+            },
+        })).render();
+      });
+</script>
+{% endblock %}
+

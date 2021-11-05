@@ -1,0 +1,140 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}目录识别{% endblock %}
+
+{% block css %}
+{#    <meta http-equiv="refresh" content="5">#}
+    <style>
+        #toolbar {
+          margin: 0;
+        }
+        /*修复分页next按钮布局*/
+       .page-item.page-next, .page-item.page-prev{
+           flex: 0 0 auto;
+       }
+    </style>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-table/bootstrap-table.min.css' %}">
+{% endblock %}
+
+{% block contents %}
+<div class="container-xl" >
+        <!--扫描结果卡片-->
+        <div class="card card-sm">
+        <div class="card-body">
+            <!-- 卡片边缘缎带 -->
+            <div class="ribbon ribbon-top ribbon-left  bg-azure">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-comet" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M15.5 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z" />
+                  <line x1="4" y1="4" x2="11" y2="11" />
+                  <line x1="9" y1="4" x2="12.5" y2="7.5" />
+                  <line x1="4" y1="9" x2="7.5" y2="12.5" />
+                </svg>
+            </div>
+            <!--扫描目标-->
+            <span class="card-title text-center">
+            {% for key in key_list %}扫描目标：<a href="{{ key }}" target="_blank" title="点击跳转">{{ key }}</a>{% endfor %}
+            </span>
+            <div id="toolbar" class="select">
+              <select class="form-control">
+                <option value="">导出当前页数据</option>
+                <option value="all">导出所有数据</option>
+{#                <option value="selected">导出选中数据</option>#}
+              </select>
+            </div>
+            <!--结果表格-->
+            <div class="table-responsive" id="refresh">
+                <table class="table text-center" id="table"
+                  data-toggle="table"
+                  data-show-export="true"
+                  data-click-to-select="true"
+                  data-toolbar="#toolbar"
+                  data-search="true"
+                  data-show-refresh="true"
+                  data-auto-refresh="true"
+                  data-show-toggle="true"
+                  data-show-fullscreen="true"
+                  data-show-columns="true"
+                  data-show-columns-toggle-all="true"
+                  data-minimum-count-columns="2"
+                  data-show-pagination-switch="true"
+                  data-pagination="true"
+                  data-id-field="id"
+                  data-page-list="[10, 25, 50, 100, all]"
+                  data-response-handler="responseHandler">
+                <thead class="table-primary">
+                <tr>
+                    <th data-field="id" data-sortable="true">ID</th>
+                    <th data-field="path"  style="width: 50%">路径</th>
+                    <th data-field="status" data-sortable="true">状态码</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for j in a %}
+                    <tr>
+                        {% if j.status == 200 %}
+                            <td >{{ forloop.counter }}</td>
+                            <td class="text-success"><a href="{% for key in key_list %}{{ key | slice:":-1"  }}{{ j.path }}{% endfor %}" target="_blank" title="点击跳转" class="text-reset">{% for key in key_list %}{{ key | slice:":-1" }}{{ j.path }}{% endfor %}</a></td>
+                            <td class="text-success"><span class="btn bg-green-lt btn-block" style="width: 100px">{{ j.status }}</span></td>
+                        {% elif j.status == 301  %}
+                            <td >{{ forloop.counter }}</td>
+                            <td class="text-pink"><a href="{% for key in key_list %}{{ key | slice:":-1"  }}{{ j.path }}{% endfor %}" target="_blank" title="点击跳转" class="text-reset">{% for key in key_list %}{{ key | slice:":-1" }}{{ j.path }}{% endfor %}</a></td>
+                            <td class="text-teal"><span class="btn bg-pink-lt btn-block" style="width: 100px">{{ j.status }}</span></td>
+                        {% else %}
+                            <td >{{ forloop.counter }}</td>
+                            <td class="text-red"><a href="{% for key in key_list %}{{ key | slice:":-1"  }}{{ j.path }}{% endfor %}" target="_blank" title="点击跳转" class="text-reset">{% for key in key_list %}{{ key | slice:":-1" }}{{ j.path }}{% endfor %}</a></td>
+                            <td class="text-azure"><span class="btn bg-red-lt btn-block" style="width: 100px">{{ j.status }}</span></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block js%}
+
+    <!--Bootsrap Table-->
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table-zh-CN.js' %}"></script>
+    <!--Table export-->
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-table/1.15.3/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF/jspdf.min.js"></script>
+    <script src="https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+
+    <!--Table export-->
+    <script>
+        var $table = $('#table')
+        $(function() {
+    $('#toolbar').find('select').change(function () {
+      $table.bootstrapTable('destroy').bootstrapTable({
+        exportDataType: $(this).val(),
+        exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
+        {#columns: [#}
+        {#  {#}
+        {#    field: 'state',#}
+        {#    checkbox: true,#}
+        {#    visible: $(this).val() === 'selected'#}
+        {#  }#}
+        {#]#}
+      })
+    }).trigger('change')
+  })
+    </script>
+
+
+{#    <script>#}
+{#        $(function () {#}
+{#        setInterval(function () {#}
+{#            $("#refresh").load(location.href + " #refresh")#}
+            {#$.getScript("https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js");#}
+{#        },1000)#}
+{#        })#}
+{#    </script>#}
+{% endblock %}

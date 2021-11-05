@@ -1,0 +1,6 @@
+2021-02-09 09:41:14,491 views.py[line:85] INFO M:POST P:/webscan_backend/webweight UPOST:<QueryDict: {'url': ['https://freemycloud.site/']}> SC:200 UIP:127.0.0.1 RDATA:获后取数据失败，稍再试
+2021-02-09 09:41:15,459 views.py[line:128] INFO M:POST P:/webscan_backend/whatcms UPOST:<QueryDict: {'url': ['https://freemycloud.site/']}> SC:200 UIP:127.0.0.1 RDATA:未能识别，请联系管理员
+2021-02-09 09:41:16,383 views.py[line:71] INFO M:POST P:/webscan_backend/baseinfo UPOST:<QueryDict: {'url': ['https://freemycloud.site/']}> SC:200 UIP:127.0.0.1 RDATA:{'code': 400, 'msg': '网络错误'}
+2021-02-09 09:41:34,555 views.py[line:85] INFO M:POST P:/webscan_backend/webweight UPOST:<QueryDict: {'url': ['https://freemycloud.site/']}> SC:200 UIP:127.0.0.1 RDATA:获后取数据失败，稍再试
+2021-02-09 09:41:36,304 views.py[line:128] INFO M:POST P:/webscan_backend/whatcms UPOST:<QueryDict: {'url': ['https://freemycloud.site/']}> SC:200 UIP:127.0.0.1 RDATA:未能识别，请联系管理员
+2021-02-09 09:41:36,852 views.py[line:71] INFO M:POST P:/webscan_backend/baseinfo UPOST:<QueryDict: {'url': ['https://freemycloud.site/']}> SC:200 UIP:127.0.0.1 RDATA:{'code': 400, 'msg': '网络错误'}

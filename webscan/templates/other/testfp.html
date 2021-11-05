@@ -1,0 +1,175 @@
+{#@Time:2021/01/06 17:55#}
+{#@Author:简简#}
+{#@File：fingerprint.html#}
+{#@software:PyCharm#}
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}指纹识别{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'plugins/layui/css/layui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% endblock %}
+
+{% block contents %}
+    <!-- 产品信息 -->
+     <div class="webscan-title" style="margin-top: 180px;">
+        <h1> 指纹识别 </h1>
+        <p>获取网站的IP、指纹、中间件、操作系统等基础信息</p>
+    </div>
+
+    <!-- 表单框/提交网址 -->
+    <div class="webscan-search">
+        <div class="layui-form">
+            <div class="layui-form-item">
+              <div class="layui-input-inline" style="width: 1000px">
+                <input type="text" name="site" minlength="11" maxlength="39" required="" lay-verify="required" lay-vertype="tips" placeholder="请输入正确的网址,例如 http://example.cn" autocomplete="off" class="layui-input">
+              </div>
+              <button class="layui-btn layui-bg-blue layui-btn-lg btn-search">指纹查询</button>
+            </div>
+        </div>
+    </div>
+    <!-- 结果展示区 -->
+    <div class="webscan-result" style="display: none;margin-bottom: 150px;">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;width: 90%; padding-left: 200px">
+          <legend>查询结果：</legend>
+        </fieldset>
+
+          <div class="layui-row layui-col-space15" style="width: 90%; padding-left: 200px">
+            <div class="layui-col-md12">
+              <div class="layui-card" >
+                <table class="layui-table" lay-even="" lay-skin="nob" style="width: 100%;margin: 10px 0;">
+                    <tbody>
+                        <tr>
+                            <td>域名</td>
+                            <td class="domain_name">
+                                <i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>指纹框架</td>
+                            <td class="cms_finger">
+                                <i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div id="main" style="height:400px"></div>
+
+
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'plugins/layui/layui.js' %}"></script>
+    <script>
+    layui.use(['layer', 'form', 'element'], function () {
+    const layer = layui.layer,
+        form = layui.form,
+        element = layui.element;
+    function get_base_info(domain){
+        // 发起网络请求
+        $.post('/webscan_backend/baseinfo',{
+            url: domain
+        }, function(data){
+            $('.domain_name').text(data.data.domain || 'error');
+            $('.server_middleware').text(data.data.server || 'error');
+            $('.domain_name').text(data.data.domain || 'error');
+            layer.msg(data.msg);
+
+            $(".btn-search").text('重新查询');
+            $('.btn-search').attr('disabled', false);
+        });
+    }
+    function get_site_cms(domain) {
+        $.post('/webscan_backend/whatcms',{
+            url: domain
+        }, function(data){
+            $('.cms_finger').text(data.data);
+        });
+    }
+
+    $(function () {
+            $(".btn-search").click(function () {
+                $(this).attr('disabled', true);
+                if($(this).text() == '重新查询') {
+                    // 需要更新菊花
+                    $("td:odd").html('<i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>');
+                }
+                $(this).text('请稍等');
+                let domain = $('input[name=site]').val();
+                if(domain){
+                    // 校验当前网址是否正确/符合规范
+                    // coding ...
+                    $('.webscan-result').show();
+                    get_site_cms(domain);
+                    get_base_info(domain);//最后请求，避免可能导致waf被拦截站点不可访问的问题
+                } else {
+                    $('input[name=site]').val('');
+                    layer.msg('请输入正确的网址，\n例如：http://example.cn');
+                    $(".btn-search").text('重新查询');
+                    $(".btn-search").attr('disabled', false);
+                }
+            })
+    });
+        });
+    </script>
+
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+    <script type="text/javascript">
+            var chartDom = document.getElementById('main');
+            var myChart = echarts.init(chartDom);
+            var option;
+
+            option = {
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    top: '5%',
+                    left: 'center'
+                },
+                series: [
+                    {
+                        name: '访问来源',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        itemStyle: {
+                            borderRadius: 10,
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        },
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '40',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: [
+                            {value: 1048, name: '搜索引擎'},
+                            {value: 735, name: '直接访问'},
+                            {value: 580, name: '邮件营销'},
+                            {value: 484, name: '联盟广告'},
+                            {value: 300, name: '视频广告'}
+                        ]
+                    }
+                ]
+            };
+            option && myChart.setOption(option);
+    </script>
+{% endblock %}
+

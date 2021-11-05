@@ -1,0 +1,276 @@
+{#@Time:2021/2/03 10:35#}
+{#@Author:简简#}
+{#@File：infoleak.html#}
+{#@software:PyCharm#}
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %} 信息泄露 {% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block contents %}
+<div class="container-xl" >
+        <!-- 产品信息卡片 -->
+        <div class="card card-lg " >
+            <div class="card-body" >
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
+                        </svg>
+                  </div>
+                <!--标题&介绍-->
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="p-2"><i class="fas fa-compass" style="zoom: 2.2;"></i></div>
+                    <div class="p-2"><h1>信息泄漏</h1></div>
+                    <br>
+                </div>
+                <p class="text-center">通过批量扫描检查网站是否存在信息泄漏问题！
+                    <!-- 提示框 -->
+                    <span class="form-help" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="right" data-html="true"
+                          data-content="<p>端口扫描是指某些别有用心的人发送一组端口扫描消息，试图以此侵入某台计算机，并了解其提供的计算机网络服务类型。攻击者可以通过它了解到从哪里可探寻到攻击弱点。</p>
+                          <p class='mb-0'><a href='https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/11056182?fr=aladdin'>详情</a></p>">?
+                    </span>
+                </p>
+            </div>
+        </div>
+        <!-- 输入框卡片 -->
+        <div class="card card-lg ">
+            <div class="card-body">
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <circle cx="10" cy="10" r="7" />
+                      <line x1="21" y1="21" x2="15" y2="15" />
+                    </svg>
+                </div>
+                <!-- 输入框 -->
+                <div class="input-icon mb-3 float-left" style="width: 80%">
+                   <span class="input-icon-addon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>
+                    </span>
+                    <input type="text" name="siteurl" minlength="11" maxlength="39" required=""  placeholder="请输入正确的URL" autocomplete="off" class="form-control  form-control-lg">
+                </div>
+                <!-- 按钮 -->
+                <button class="scan-btn btn btn-lg btn-indigo float-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>
+                    泄漏检查
+                </button>
+            </div>
+        </div>
+        <!-- 扫描结果卡片 -->
+        <div class="scan-result" style="display: none;">
+            <div class="card card-sm " >
+                <div class="card-body">
+                    <!-- 卡片边缘缎带 -->
+                    <div class="ribbon ribbon-top ribbon-left  bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-comet" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M15.5 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z" />
+                          <line x1="4" y1="4" x2="11" y2="11" />
+                          <line x1="9" y1="4" x2="12.5" y2="7.5" />
+                          <line x1="4" y1="9" x2="7.5" y2="12.5" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title text-center">查询结果</h3>
+                        <table class="table table-bordered">
+                            <tbody style="text-align: center;">
+                            <tr style="text-align: center;">
+                                {#<td>类型</td> <td>存在信息泄漏URL</td>#}
+                            </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">常见信息泄露情况</h3>
+            </div>
+            <div class="list-group list-group-flush overflow-auto" style="max-height: 19rem">
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">phpinfo()信息泄露</span></a>
+                        <div class="text-muted text-truncate mt-n1">eg： 　　http://[ip]/test.php 　　http://[ip]/phpinfo.php</div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">管理后台地址泄露</span></a>
+                        <div class="text-muted text-truncate mt-n1">eg：　　http://[ip]/login.php 　　http://[ip]/admin.php 　　http://[ip]/manager.php 　　http://[ip]/admin_login.php</div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">版本管理工具（如git）文件信息泄露</span></a>
+                        <div class="text-muted text-truncate mt-n1">eg：　　http://[ip]/.git/config 　　http://[ip]/CVS/Entriesp 　　http://[ip]/.svn/entriesp</div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">编辑器备份文件泄漏</span></a>
+                        <div class="text-muted text-truncate mt-n1">eg：　　http://[ip]/test.php.swp 　　http://[ip]/test.php.bak 　　http://[ip]/test.jsp.old 　　http://[ip]/cgi~</div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">测试网页泄露</span></a>
+                        <div class="text-muted text-truncate mt-n1">eg：　　test.cgi、phpinfo.php、info.php等</div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">HTTP认证信息泄露</span></a>
+                        <div class="text-muted text-truncate mt-n1">eg：　　http://[ip]/basic/index.php，开启了HTTP Basic认证，但未限制IP，导致可暴力破解账号，密码</div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">错误页面暴露信息</span></a>
+                        <div class="text-muted text-truncate mt-n1">eg：　　mysql错误、php错误、暴露cms版本等</div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">网站源码备份文件泄露</span></a>
+                        <div class="text-muted text-truncate mt-n1">eg：　　www.rar、sitename.tar.gz、web、zip等</div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">网络信息泄露</span></a>
+                        <div class="text-muted text-truncate mt-n1">eg：　　DNS域传送漏洞运维监控系统弱口令、网络拓扑泄露、zabbix弱口令、zabbix sql注入等</div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">第三方软件应用</span></a>
+                        <div class="text-muted text-truncate mt-n1">eg：　　github上源码、数据库、邮箱密码泄露等</div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">探针文件</span></a>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block"><span class="badge bg-azure">robots.txt导致文件泄露</span></a>
+                      </div>
+                    </div>
+                  </div>
+                <div class="list-group-item">
+                    <div class="row">
+                      <div class="col-auto"><span class="badge bg-azure"></span></div>
+                      <div class="col text-truncate">
+                        <a href="#" class="text-body d-block">。。。。。。</a>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+</div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- 消息弹层组件 依赖jquery -->
+    <script src="{% static 'plugins/layer/layer.js' %}"></script>
+    <!-- 点击查询按钮页面向下滑到底部 依赖jquery -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+            $('.scan-btn').click(function(){$('html,body').animate({scrollTop:$('.footer').offset().top}, 100);}); //100ms
+        });
+    </script>
+    <!-- 回车键查询按钮触发 依赖jquery -->
+    <script type="text/javascript">
+        $(document).keydown(function(event) {
+                if (event.keyCode == 13) {
+                    $(".scan-btn").click();
+                }
+            });
+    </script>
+    <!-- 查询按钮事件 -->
+    <script type="text/javascript">
+        function get_webside_info(url) {
+            $.post('/webscan_backend/info_leak',{
+                url: url
+            }, function(data){
+                if(data.code == 200){
+                    $('tbody tr:first').html("<td class='table-primary'><strong>类型</strong></td><td class='table-primary'><strong>存在信息泄漏URL</strong></td>");
+                    $.each(data.data, function(index, obj){
+                        $('tbody').append('<tr><td> ' + obj[0] + ' </td> <td><a href="' + obj[1] +'" target="_blank" title="点击跳转"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>' + obj[1] + '</a></td></tr>');
+                    });
+                     layer.msg('查询成功',{icon: 1,offset: '220px',area: ['70px', '70px']});
+                } else {
+                    layer.msg(data.data);
+                    $('input[name=siteip]').val('');
+                }
+                $(".scan-btn").text('重新扫描');
+                $('.scan-btn').attr('disabled', false);
+            });
+        }
+        $(function () {
+            $(".scan-btn").click(function () {
+                $(this).attr('disabled', true);
+                var url = $('input[name=siteurl]').val();
+                if(url){
+                    // 校验当前网址是否正确/符合规范
+                    // coding ...
+                    if($('.scan-btn').text() == '重新扫描') {
+                        $("tbody tr:not(:first)").remove();
+                    }
+                    //$(this).html('请稍等 <i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>');
+                    $(this).html('请稍等<span class="spinner-border spinner-border-sm me-2" role="status"></span>');
+                    $('tbody').html('<tr><td><div class="hr-text">正在扫描，请耐心等待 </div><div class="progress progress-lg progress-bar-striped active"><div class="progress-bar progress-bar-indeterminate"></div></div></td></tr>');
+                    $('.scan-result').show();
+                    get_webside_info(url);
+                } else {
+                    $('input[name=siteip]').val('');
+                    layer.msg('请输入正确的URL，\n例如:http://example.cn');
+                    $(".scan-btn").text('泄漏检查');
+                    $(".scan-btn").attr('disabled', false);
+                }
+            });
+        });
+    </script>
+{% endblock %}
+

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %} 漏洞结果 {% endblock %}
+{% block css %}
+    <!--Bootsrap Table-->
+    <style>
+        #toolbar {
+          margin: 0;
+        }
+        /*修复分页next按钮布局*/
+       .page-item.page-next, .page-item.page-prev{
+           flex: 0 0 auto;
+       }
+    </style>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-table/bootstrap-table.min.css' %}">
+
+{% endblock %}
+
+{% block contents %}
+     <div class="container-xl " >
+        <div class=" card-group " >
+            <div class="col-lg-12">
+              <div class="card" >
+                <div class="card-header">
+                  <h3 class="card-title">
+                      <div class="text-muted text-center">{{ data.affects_url }}漏洞详情</div>
+                  </h3>
+                </div>
+                <div class="card-body">
+                    <div class="card-title" style="font-size: 1.2em">URL:</div>
+                    <pre style="background-color: #EDF1F2;font-size: 1em" >{{ data.affects_url }}</pre>
+                    <div class="card-title" style="font-size: 1.2em">Vulnerability:</div>
+                    <pre style="background-color: #EDF1F2;font-size: 1em" >{{ data.vt_name }}</pre>
+                    <div class="card-title" style="font-size: 1.2em">Time:</div>
+                    <pre style="background-color: #EDF1F2;font-size: 1em" >{{ data.last_seen }}</pre>
+                    <div class="card-title" style="font-size: 1.2em">Parameter:</div>
+                    <pre style="background-color: #EDF1F2;font-size: 1em"> {{ data.parameter_name }}={{ data.parameter_data }}</pre>
+                    <div class="card-title" style="font-size: 1.2em">Attack details:</div>
+                    {% autoescape off %}
+                        <pre style="background-color: #EDF1F2;font-size: 1em">{{ data.details }}</pre>
+                    {% endautoescape %}
+                    <div class="card-title" style="font-size: 1.2em">Request:</div>
+                    <pre style="background-color: #EDF1F2;font-size: 1em">{{ data.request }}</pre>
+                    <div class="card-title" style="font-size: 1.2em">Recommendation:</div>
+                    <pre style="background-color: #EDF1F2;font-size: 1em">{{ data.recommendation }}</pre>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <!--Bootsrap Table-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table-zh-CN.js' %}"></script>
+
+    <!-- 消息弹层组件 依赖jquery -->
+    <script src="{% static 'layer/layer.js' %}"></script>
+    <!-- 点击查询按钮页面向下滑到底部 依赖jquery -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+            $('.scan-btn').click(function(){$('html,body').animate({scrollTop:$('.footer').offset().top}, 100);}); //100ms
+        });
+
+    </script>
+    <!-- 回车键查询按钮触发 依赖jquery -->
+    <script type="text/javascript">
+            $(document).keydown(function(event) {
+                    if (event.keyCode == 13) {
+                        $(".scan-btn").click();
+                    }
+                });
+
+        </script>
+{% endblock %}

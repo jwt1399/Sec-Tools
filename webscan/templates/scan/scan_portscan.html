@@ -1,0 +1,269 @@
+{#@Time:2020/12/27 16:35#}
+{#@Author:简简#}
+{#@File：portscan.html#}
+{#@software:PyCharm#}
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %} 端口扫描 {% endblock %}
+
+{% block css %}
+        <style>
+        #toolbar {
+          margin: 0;
+        }
+        /*修复分页next按钮布局*/
+       .page-item.page-next, .page-item.page-prev{
+           flex: 0 0 auto;
+       }
+    </style>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-table/bootstrap-table.min.css' %}">
+{% endblock %}
+
+{% block contents %}
+<div class="container-xl " >
+        <!-- 产品信息卡片 -->
+        <div class="card card-lg " >
+            <div class="card-body" >
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
+                        </svg>
+                  </div>
+                <!--标题&介绍-->
+                <div class="d-flex flex-row justify-content-center" {#style="margin-top: 180px;"#}>
+                    <div class="p-2"><i class="fas fa-search " style="zoom: 2.2;"></i></div>
+                    <div class="p-2"><h1> 端口扫描 </h1></div>
+                    <br>
+                </div>
+                <p class="text-center">扫描常见端口，探测开放端口和对应服务！
+                    <!-- 提示框 -->
+                    <span class="form-help" data-trigger="hover click" data-container="body" data-toggle="popover" data-placement="right" data-html="true"
+                          data-content="<p>端口扫描是指某些别有用心的人发送一组端口扫描消息，试图以此侵入某台计算机，并了解其提供的计算机网络服务类型。攻击者可以通过它了解到从哪里可探寻到攻击弱点。</p>
+                          <p class='mb-0'><a href='https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/11056182?fr=aladdin'>详情</a></p>">?
+                    </span>
+                </p>
+            </div>
+        </div>
+        <!-- 输入框卡片 -->
+        <div class="card card-lg "  {#style="background-color:rgba(0,0,0,0);" #}>
+            <div class="card-body">
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <circle cx="10" cy="10" r="7" />
+                      <line x1="21" y1="21" x2="15" y2="15" />
+                    </svg>
+                </div>
+                <!-- 输入框 -->
+                <div class="input-icon mb-3 float-left" style="width: 80%">
+                   <span class="input-icon-addon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>
+                    </span>
+                    <input type="text" name="siteip" minlength="15" maxlength="15" required="" {#  lay-verify="required" lay-vertype="tips"#} placeholder="请填写正确的IP地址" autocomplete="off" class="form-control  form-control-lg">
+                </div>
+                <!-- 按钮 -->
+                <button class="scan-btn btn btn-lg btn-indigo float-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>
+                    扫描端口
+                </button>
+            </div>
+        </div>
+        <!-- 扫描结果卡片 -->
+        <div class="scan-result" style="display: none;">
+            <div class="card card-sm " >
+                <div class="card-body">
+                    <!-- 卡片边缘缎带 -->
+                    <div class="ribbon ribbon-top ribbon-left  bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-comet" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15.5 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z" /><line x1="4" y1="4" x2="11" y2="11" /><line x1="9" y1="4" x2="12.5" y2="7.5" /><line x1="4" y1="9" x2="7.5" y2="12.5" /></svg>
+                    </div>
+                    <h3 class="card-title text-center">查询结果</h3>
+                        <table class="table table-bordered">
+                            <tbody style="text-align: center;">
+                            <tr style="text-align: center;">
+                                <td class='table-primary'><strong>端口</strong></td><td class='table-primary'><strong>协议/服务</strong></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+        <!--端口划分 -->
+        <div class="row  row-cards port-division">
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    按端口分布划分
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <dl class="row">
+                    <dt class="col-5">公认端口:</dt>
+                    <dd class="col-7"><span class="badge bg-azure">0~1023</span></dd>
+                    <dt class="col-5">注册端口:</dt>
+                    <dd class="col-7"><span class="badge bg-azure">1024~49151</span></dd>
+                    <dt class="col-5">动态/私有端口:</dt>
+                    <dd class="col-7"><span class="badge bg-azure">49152~65535</span></dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                按协议类型划分
+              </h3>
+            </div>
+            <div class="card-body">
+              <dl class="row">
+                <dt class="col-5 text-secondary">主要划分为以下两类</dt>
+                <dd class="col-7">&nbsp</dd>
+                <dt class="col-5">传输控制协议端口:</dt>
+                  <dd class="col-7"><span class="badge bg-azure">TCP端口</span></dd>
+                <dt class="col-5">用户数据包协议端口:</dt>
+                  <dd class="col-7"><span class="badge bg-azure">UDP端口</span></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        </div>
+</div>
+
+    <!-- 常见端口查询表 -->
+<div class="container-xl" >
+    <div class="card card-sm">
+        <div class="card-body">
+            <!-- 卡片边缘缎带 -->
+            <div class="ribbon ribbon-top ribbon-left  bg-azure">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-comet" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15.5 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z" /><line x1="4" y1="4" x2="11" y2="11" /><line x1="9" y1="4" x2="12.5" y2="7.5" /><line x1="4" y1="9" x2="7.5" y2="12.5" /></svg>
+            </div>
+            <span class="card-title text-center">
+            常见端口查询表
+            </span>
+            <!--结果表格-->
+            <div class="table-responsive" id="refresh">
+                <table class="table text-center" id="table"
+                  data-toggle="table"
+                  data-show-export="true"
+                  data-click-to-select="true"
+                  data-toolbar="#toolbar"
+                  data-search="true"
+                  data-show-refresh="true"
+                  data-auto-refresh="true"
+                  data-show-toggle="true"
+                  data-show-fullscreen="true"
+                  data-show-columns="true"
+                  data-show-columns-toggle-all="true"
+                  data-minimum-count-columns="2"
+                  data-show-pagination-switch="true"
+                  data-pagination="true"
+                  data-id-field="id"
+                  data-page-list="[10, 25, 50, 100, all]"
+                  data-response-handler="responseHandler">
+                    <thead class="table-primary">
+                        <tr>
+                            <th data-sortable="true">端口号</th>
+                            <th data-sortable="true">服务</th>
+                            <th data-sortable="true">协议</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for portlist in portlists %}
+                        <tr>
+                            <td >{{ portlist.num }}</td>
+                            <td >{{ portlist.service }}</td>
+                            <td >{{ portlist.protocol }}</td>
+                            {% if portlist.status == '非官方' %}
+                                <td ><span class="badge bg-azure">{{ portlist.status }}</span></td>
+                            {% elif portlist.status == '官方' %}
+                                <td ><span class="badge bg-green">{{ portlist.status }}</span></td>
+                            {% else %}
+                                <td ><span class="badge bg-secondary">{{ portlist.status }}</span></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+    <!--Bootsrap Table-->
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-table/bootstrap-table-zh-CN.js' %}"></script>
+    <!-- jquery-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- 消息弹层组件 依赖jquery -->
+    <script src="{% static 'plugins/layer/layer.js' %}"></script>
+    <!-- 点击查询按钮页面向下滑到端口划分处 依赖jquery -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+            $('.scan-btn').click(function(){$('html,body').animate({scrollTop:$('.port-division').offset().top}, 100);}); //100ms
+        });
+    </script>
+    <!-- 回车键查询按钮触发 依赖jquery -->
+    <script type="text/javascript">
+            $(document).keydown(function(event) {
+                    if (event.keyCode == 13) {
+                        $(".scan-btn").click();
+                    }
+                });
+        </script>
+    <!-- 查询按钮事件 -->
+    <script type="text/javascript">
+            //获取端口信息
+            function get_port_info(ip) {
+                $.post('/webscan_backend/port_scan', {
+                    ip: ip
+                }, function (data) {
+                    if (data.code !== 200) {
+                        $('.scan-result').hide();
+                        layer.msg(data.data);
+                    } else {
+                        $('tbody tr:first').html("<td class='table-primary'><strong>端口</strong></td><td class='table-primary'><strong>协议/服务</strong></td>");
+                        var tr_html = '';
+                        $.each(data.data, function (index, obj) {   {#遍历对象输出到页面中#}
+                            let obj_arr = obj.split(':');
+                            $('tbody:first').append("<tr><td><span class='btn bg-green-lt btn-block' style='width: 200px'>"+ obj_arr[1] + "</span></td><td><span class='btn bg-azure-lt btn-block' style='width: 200px'>" + obj_arr[0] + "</span></td></tr>");
+                        });
+                        layer.msg('查询成功',{icon: 1,offset: '220px',area: ['70px', '70px']});//查询成功提示框 options:图标，相对位置，宽高
+                    }
+                    //$(".scan-btn").text('重新扫描'); {#设置或返回被选元素的文本内容。#}
+                    $(".scan-btn").html('<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>'+'重新扫描');
+                    $('.scan-btn').attr('disabled', false);
+                });
+            }
+            //查询按钮点击触发功能
+            $(function () {
+                $(".scan-btn").click(function () {
+                    $(this).attr('disabled', true);
+                    //$(this).text('请稍等');
+                    $(this).html('请稍等<span class="spinner-border spinner-border-sm me-2" role="status"></span>');
+                    //$(this).html('请稍等 <i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>');
+                    var domain = $('input[name=siteip]').val();
+                    if (domain) {
+                        // 校验当前网址是否正确/符合规范
+                        // coding ...
+                        //$('tbody').html('<tr> <td> 多线程扫描，预计请等待<span>10</span>s &nbsp;<i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i></td> </tr>');
+                        $('tbody:first').html('<tr><td><div class="hr-text">多线程扫描，预计等待10s </div><div class="progress progress-lg progress-bar-striped active"><div class="progress-bar progress-bar-indeterminate"></div></div></td></tr>');
+                        $('.scan-result').show();
+                        get_port_info(domain);
+                    } else {
+                        $('input[name=siteip]').val('');
+                        layer.msg('请输入正确的IP，例如：139.224.112.182');
+                        {#$(".scan-btn").text('查询');#}
+                        $(".scan-btn").html('<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>\n' + '扫描端口');
+                        $(".scan-btn").attr('disabled', false);
+                    }
+                });
+            });
+    </script>
+{% endblock %}

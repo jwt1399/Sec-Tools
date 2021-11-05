@@ -1,0 +1,238 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}关于{% endblock %}
+{% block css %}
+
+{% endblock %}
+
+
+{% block contents %}
+    <div class="container-xl" style="text-align: center;color: pink;vertical-align: middle; padding: 200px;font-size: 100px ">
+        <span>正在努力开发中...</span >
+    </div>
+    <div class="container-xl">
+        <div class="row row-deck row-cards">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="vulnchart1" style="height:300px;"></div>
+                        <div class="text-center">High Severity Vulnerabilities</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="vulnchart2" style="height:300px;"></div>
+                        <div class="text-center">Medium Severity Vulnerabilities</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="vulnchart3" style="height:300px;"></div>
+                        <div class=" text-center">Low Severity Vulnerabilities</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+    <!--高危-->
+    <script>
+     var myChart1 = echarts.init(document.getElementById('vulnchart1'));
+     myChart1.setOption({
+        series: [{
+            type: 'gauge',
+            max: 200,
+            startAngle:270,
+            endAngle:-90,
+            axisLine: {
+                lineStyle: {
+                    width: 10,
+                    color: [
+                        {#[0.3, '#67e0e3'],#}
+                        {#[0.7, '#37a2da'],#}
+                        [1, '#fd666d']
+                    ]
+                }
+            },
+            pointer: {
+                itemStyle: {
+                    color: 'auto'
+                }
+            },
+            detail: {
+                valueAnimation: true,
+                formatter: '{value}',
+                color: 'auto'
+            },
+            data: [{value: 20,name: '高危漏洞'}],
+        }]
+     });
+     $.post('/get_vuln_value', function (data) {
+        myChart1.setOption({
+              series: [{
+                type: 'gauge',
+                max: 200,
+                startAngle:270,
+                endAngle:-90,
+                axisLine: {
+                    lineStyle: {
+                        width: 10,
+                        color: [
+                            {#[0.3, '#67e0e3'],#}
+                            {#[0.7, '#37a2da'],#}
+                            [1, '#fd666d']
+                        ]
+                    }
+                },
+                pointer: {
+                    itemStyle: {
+                        color: 'auto'
+                    }
+                },
+                detail: {
+                    valueAnimation: true,
+                    formatter: '{value}',
+                    color: 'auto'
+                },
+                data: [{value: data['normal'][0]}],
+            }]
+          });
+     });
+    </script>
+    <!--中危-->
+    <script>
+     var myChart2 = echarts.init(document.getElementById('vulnchart2'));
+     myChart2.setOption({
+        series: [{
+            type: 'gauge',
+            max: 200,
+            startAngle:270,
+            endAngle:-90,
+            axisLine: {
+                lineStyle: {
+                    width: 10,
+                    color: [
+                        {#[0.3, '#67e0e3'],#}
+                        {#[0.7, '#37a2da'],#}
+                        [1, '#fd666d']
+                    ]
+                }
+            },
+            pointer: {
+                itemStyle: {
+                    color: 'auto'
+                }
+            },
+            detail: {
+                valueAnimation: true,
+                formatter: '{value}',
+                color: 'auto'
+            },
+            data: [{value: 10,}],
+        }]
+     });
+     $.post('/get_vuln_value', function (data) {
+          myChart2.setOption({
+              series: [{
+            type: 'gauge',
+            max: 200,
+            startAngle:270,
+            endAngle:-90,
+            axisLine: {
+                lineStyle: {
+                    width: 10,
+                    color: [
+                        {#[0.3, '#67e0e3'],#}
+                        {#[0.7, '#37a2da'],#}
+                        [1, '#F4D576']
+                    ]
+                }
+            },
+            pointer: {
+                itemStyle: {
+                    color: 'auto'
+                }
+            },
+            detail: {
+                valueAnimation: true,
+                formatter: '{value}',
+                color: 'auto'
+            },
+            data: [{value: data['normal'][2],}],
+        }]
+          });
+     });
+    </script>
+    <!--低危-->
+    <script>
+     var myChart = echarts.init(document.getElementById('vulnchart3'));
+     myChart.setOption({
+        series: [{
+            type: 'gauge',
+            max: 200,
+            startAngle:270,
+            endAngle:-90,
+            axisLine: {
+                lineStyle: {
+                    width: 10,
+                    color: [
+                        {#[0.3, '#67e0e3'],#}
+                        {#[0.7, '#37a2da'],#}
+                        [1, '#fd666d']
+                    ]
+                }
+            },
+            pointer: {
+                itemStyle: {
+                    color: 'auto'
+                }
+            },
+            detail: {
+                valueAnimation: true,
+                formatter: '{value}',
+                color: 'auto'
+            },
+            data: [{value: 60,}],
+        }]
+     });
+     $.post('/get_vuln_value', function (data) {
+          myChart.setOption({
+              series: [{
+            type: 'gauge',
+            max: 200,
+            startAngle:270,
+            endAngle:-90,
+            axisLine: {
+                lineStyle: {
+                    width: 10,
+                    color: [
+                        {#[0.3, '#67e0e3'],#}
+                        {#[0.7, '#37a2da'],#}
+                        [1, '#33CFFF']
+                    ]
+                }
+            },
+            pointer: {
+                itemStyle: {
+                    color: 'auto'
+                }
+            },
+            detail: {
+                valueAnimation: true,
+                formatter: '{value}',
+                color: 'auto'
+            },
+            data: [{value: data['normal'][1],}],
+        }]
+          });
+     });
+    </script>
+{% endblock %}

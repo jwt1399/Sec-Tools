@@ -1,0 +1,249 @@
+{#<style>#}
+{#    body {#}
+{#        text-align: center;#}
+{#    }#}
+{#</style>#}
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}目录识别{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block contents %}
+    <div class="container-xl" >
+        <!-- 产品信息卡片 -->
+        <div class="card card-lg " >
+            <div class="card-body" >
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
+                        </svg>
+                  </div>
+                <!--标题&介绍-->
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="p-2"><i class="fas fa-stream" style="zoom: 2.2;"></i></div>
+                    <div class="p-2"><h1>目录识别</h1></div>
+                    <br>
+                </div>
+                <p class="text-center">通过批量扫描检查网站目录名、探针文件、后台、robots.txt、备份文件等！
+                    <!-- 提示框 -->
+                    <span class="form-help" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="right" data-html="true"
+                          data-content="<p>端口扫描是指某些别有用心的人发送一组端口扫描消息，试图以此侵入某台计算机，并了解其提供的计算机网络服务类型。攻击者可以通过它了解到从哪里可探寻到攻击弱点。</p>
+                          <p class='mb-0'><a href='https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/11056182?fr=aladdin'>详情</a></p>">?
+                    </span>
+                </p>
+            </div>
+        </div>
+        <!-- 输入框&options 卡片 -->
+        <div class="card card-lg " >
+            <div class="card-body" >
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <circle cx="10" cy="10" r="7" />
+                      <line x1="21" y1="21" x2="15" y2="15" />
+                    </svg>
+                </div>
+                <form action="{% url 'dir-search' %}" method="post">
+                    {% csrf_token %}
+                    <!-- 输入框&提交按钮 -->
+                    <div class="fixed_scan input-icon mb-3 float-left" style="width: 80%">
+                       <span class="input-icon-addon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>
+                        </span>
+                        <input type="text" name="url" placeholder="请输入正确的URL" minlength="11" maxlength="39" required=""  autocomplete="off" class="form-control  form-control-lg">
+                    </div>
+                    <button  class="scan-btn btn btn-lg btn-indigo float-left" id="py1"  name="app" value="提交">目录识别</button>
+                    <br><br><br><br>
+                    <!--扫描选项 -->
+                    <div class="hr-text">扫描选项</div>
+                    <div class="row">
+                        <!--扫描类别 -->
+                        <div class="col-md-4 fixed_scan text-center ">
+                            <label class="form-label">
+                                扫描类别&nbsp;
+                                <span class="form-help" data-trigger="hover" data-toggle="popover" data-placement="right" data-html="true" data-content="<span>必填,至少勾选一种</sapn>">?</span>
+                            </label>
+                            <div class=" form-selectgroup form-selectgroup-pills">
+                                <label class="col-3 col-md-3 col-lg-3 form-selectgroup-item">
+                                    <input type="checkbox" name="php" value="php" class="form-selectgroup-input" checked>
+                                    <span class="form-selectgroup-label">php</span>
+                                </label>
+                                <label class="col-3 col-md-3 col-lg-3 form-selectgroup-item">
+                                    <input type="checkbox" name="asp" value="asp" class="form-selectgroup-input">
+                                    <span class="form-selectgroup-label">asp</span>
+                                </label>
+                                <label class="col-3 col-md-3 col-lg-3 form-selectgroup-item">
+                                    <input type="checkbox" name="jsp" value="jsp" class="form-selectgroup-input">
+                                    <span class="form-selectgroup-label">jsp</span>
+                                </label>
+                                <label class="col-2 col-md-5 col-lg-2 form-selectgroup-item">
+                                    <input type="checkbox" name="txt" value="txt" class="form-selectgroup-input">
+                                    <span class="form-selectgroup-label">txt</span>
+                                </label>
+                                <label class="col-2 col-md-4 col-lg-2 form-selectgroup-item">
+                                    <input type="checkbox" name="zip" value="zip" class="form-selectgroup-input">
+                                    <span class="form-selectgroup-label">zip</span>
+                                </label>
+                                <label class="col-3 col-md-5 col-lg-3 form-selectgroup-item">
+                                    <input type="checkbox" name="html" value="html" class="form-selectgroup-input">
+                                    <span class="form-selectgroup-label">html</span>
+                                </label>
+                                <label class="col-2 col-md-4 col-lg-2 form-selectgroup-item">
+                                    <input type="checkbox" name="js" value="js" class="form-selectgroup-input">
+                                    <span class="form-selectgroup-label">js</span>
+                                </label>
+                            </div>
+                        </div>
+                        <!--递归扫描 -->
+                        <div class="col-md-4 fixed_scan text-center " >
+                            <label class="form-label">递归扫描&nbsp;
+                                <span class="form-help" data-trigger="hover" data-toggle="popover" data-placement="right" data-html="true" data-content="<span>递归扫描时间较长<br>可能需要数十分钟<br>请谨慎勾选</span>">?</span>
+                            </label>
+                            <label class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="r_check" value="r_yes">
+                                    <span class="form-check-label">是</span>
+                                </label>
+                            <label class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="r_check" value="r_no" checked>
+                                    <span class="form-check-label">否</span>
+                                </label>
+{#                            <!--查看结果 -->#}
+{#                            <br>#}
+{#                            <a href="{% url 'dir-result' %}" target="_blank" class="btn btn-pink btn-pill">查看扫描结果</a>#}
+                        </div>
+                        <!--自定义扫描选项 -->
+                        <div class="col-md-4 text-center " >
+                            <label class="form-label ">自定义扫描选项
+                                <span class="form-help" data-trigger="hover" data-toggle="popover" data-placement="right" data-html="true" data-content="<span>自定义前缀、后缀、子目录</span>">?</span>
+                            </label>
+                            <label class="form-check form-switch ">
+                                <input id="show_1" class="form-check-input" type="checkbox" style="margin-left: 80px">
+                                <span class="form-check-label float-left">是否开启</span>
+                            </label>
+                            <!--前后缀&子目录 -->
+                            <div class="explain_text text-center" style="display: none;">
+{#                                <label class="form-label text-center">前后缀&子目录&nbsp;#}
+{#                                    <span class="form-help" data-trigger="hover" data-toggle="popover" data-placement="right" data-html="true" data-content="<p>非必填，想要查找配置文件或备份吗？<br>eg:admin、~、- 等，非必填，若填写请在确认扫描类别时仅勾选一个，否则时间会久到离谱</p>">?</span>#}
+{#                                </label>#}
+                                <div class="row">
+                                    <!--前缀 -->
+                                    <div id="InputsWrapper_prefixe" class="not_fixed_scan col-sm-4 " style="display: none">
+                                    前缀：<a href="#" id="AddMoreTextBox_prefixe" class="btn btn-tabler btn-icon" aria-label="Button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                        </a>
+                                    </div>
+                                    <!--后缀 -->
+                                    <div id="InputsWrapper_suffixe" class="not_fixed_scan col-sm-4 " style="display: none">
+                                    后缀：<a href="#" id="AddMoreTextBox_suffixe" class="btn btn-tabler btn-icon" aria-label="Button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                        </a>
+                                    </div>
+                                    <!--子目录 -->
+                                    <div id="InputsWrapper" class="not_fixed_scan col-sm-4 " style="display: none">
+                                    子目录：<a href="#" id="AddMoreTextBox" class="btn btn-tabler btn-icon" aria-label="Button"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></a>
+{#                                    <br>#}
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--扫描进程卡片-->
+        <div class="card card-sm jincheng" style="display: none">
+                <div class="card-body">
+                    <!-- 卡片边缘缎带 -->
+                    <div class="ribbon ribbon-top ribbon-left  bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-comet" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M15.5 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z" />
+                          <line x1="4" y1="4" x2="11" y2="11" />
+                          <line x1="9" y1="4" x2="12.5" y2="7.5" />
+                          <line x1="4" y1="9" x2="7.5" y2="12.5" />
+                        </svg>
+                    </div>
+                        <table class="table table-bordered">
+                            <tbody style="text-align: center;">
+                            <tr style="text-align: center;">
+{#                                <div class="hr-text">正在扫描，请耐心等待 </div><div class="progress progress-lg progress-bar-striped active"><div class="progress-bar progress-bar-indeterminate"></div></div>#}
+                            </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- 点击查询按钮页面向下滑到底部 依赖jquery -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+            $('.scan-btn').click(function(){$('html,body').animate({scrollTop:$('.footer').offset().top}, 100);}); //100ms
+        });
+    </script>
+    <!-- 回车键查询按钮触发 依赖jquery -->
+    <script type="text/javascript">
+        $(document).keydown(function(event) {
+                if (event.keyCode == 13) {
+                    $(".scan-btn").click();
+                }
+            });
+    </script>
+    <!-- 消息弹层组件 依赖jquery -->
+    <script src="{% static 'plugins/layer/layer.js' %}"></script>
+    <!--自定义扫描选项-->
+    <script>
+        {#前缀-动态添加输入框#}
+        $(document).ready(function () {
+            var InputCount_prefixe = 0;
+            $("#AddMoreTextBox_prefixe").click(function (e) {
+                InputCount_prefixe++;
+                $("#InputsWrapper_prefixe").append('<label></label><input style="width: 80%" type="text" name="prefixe_' + InputCount_prefixe + '" id="news_' + InputCount_prefixe + '" /><br/>');
+            });
+        });
+        {#后缀-动态添加输入框#}
+        $(document).ready(function () {
+            var InputCount_suffixe = 0;
+            $("#AddMoreTextBox_suffixe").click(function (e) {
+                InputCount_suffixe++;
+                $("#InputsWrapper_suffixe").append('<label></label><input style="width: 80%" type="text" name="suffixe_' + InputCount_suffixe + '" id="news_' + InputCount_suffixe + '" /><br/>');
+            });
+        });
+        {#指定子目录扫描-动态添加输入框#}
+        $(document).ready(function () {
+            var InputCount = 0;
+            $("#AddMoreTextBox").click(function (e) {
+                InputCount++;
+                $("#InputsWrapper").append('<label></label><input style="width: 80%" type="text" name="subdirs_' + InputCount + '" id="news_' + InputCount + '" /><br/>');
+            });
+        });
+
+        {#显示/隐藏#}
+        $(document).ready(function () {
+            $("#show_1").click(function () {
+                $(".not_fixed_scan").fadeToggle();
+                {#$(".adv_set").fadeToggle();#}
+                $(".explain_text").fadeToggle();
+            });
+        });
+
+    </script>
+    <!--按钮点击事件-->
+    <script>
+        $(document).ready(function(){
+            $(".scan-btn").click(function(){
+              layer.msg('正在扫描，请稍后...',{icon: 1,offset: '220px',area: ['200px', '70px']});
+                  {#function(){setTimeout(window.location.href="{% url 'dir-result' %}",2000);}#}
+                  window.setTimeout("window.location='{% url 'dir-result' %}'",30000);
+              $('.jincheng').show();
+              $('tbody').html('<tr><td><div class="hr-text">正在扫描，请耐心等待 </div><div class="progress progress-lg progress-bar-striped active"><div class="progress-bar progress-bar-indeterminate"></div></div></td></tr>');
+            });
+        });
+    </script>
+{% endblock %}

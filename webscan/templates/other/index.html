@@ -1,0 +1,574 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}主页{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block contents %}
+    <!-- Page title -->
+    <div class="page-header" >
+      <div class="container-xl">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <h2 class="page-title">仪表盘</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page body -->
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+            <!--漏洞数-->
+            <div class="col-md-4 col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="chart"></div>
+                        <div class="text-center">High Severity Vulnerabilities</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xl-4 ">
+                <div class="card">
+                  <div class="card-body">
+                    <div id="chart2"></div>
+                    <div class="text-center">Medium Severity Vulnerabilities</div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xl-4 ">
+                <div class="card">
+                  <div class="card-body">
+                    <div  id="chart3"></div>
+                    <div class=" text-center">Low Severity Vulnerabilities</div>
+                  </div>
+                </div>
+            </div>
+            <!--指纹-->
+            <div class="col-md-6 col-xl-9">
+                <div class="card">
+                  <div class="card-body">
+                    <div id="chart4"></div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="card">
+              <div class="card-body">
+                <div id="chart5"></div>
+              </div>
+            </div>
+            </div>
+            <!--安全导航-->
+            <div class="col-md-6 col-xl-6">
+                <div class="card">
+                  <div class="card-body">
+                    <div id="item_num1" style="height:450px;"></div>
+                  </div>
+                </div>
+                </div>
+            <div class="col-md-6 col-xl-6">
+                <div class="card">
+                  <div class="card-body">
+                   <div id="item_num2" style="height:450px;"></div>
+                  </div>
+                </div>
+                </div>
+            <!--图片展示-->
+            <div class="col-sm-6 col-lg-6">
+                <div class="row row-cards">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body" >
+                                <h3 class="text-center"><i class="fas fa-fingerprint" style="zoom: 1.0;padding: 5px;"></i><a href="{% url 'fingerprint' %}">指纹识别页面</a></h3>
+                                <img class="border shadow" src="{% static 'img/index_show/finger.png' %}">
+                            </div>
+                         </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body" >
+                                <h3 class="text-center"><i class="fa fa-bug" style="zoom: 1.0;padding: 5px;"></i>漏洞检测页面</h3>
+                                <img class="border shadow" src="{% static 'img/index_show/vuln.png' %}">
+                            </div>
+                         </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body" >
+                                <h3 class="text-center">后台管理页面</h3>
+                                <img class="border shadow" src="{% static 'img/index_show/admin.png' %}">
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-6" >
+                <div class="row row-cards">
+                    <div class="col-12">
+                        <div class="card">
+                        <div class="card-body" >
+                            <h3 class="text-center"><i class="fas fa-search" style="zoom: 1.0;padding: 5px;"></i><a href="{% url 'portscan' %}">端口扫描页面</a></h3>
+                            <img class="border shadow" src="{% static 'img/index_show/port.png' %}">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card">
+                        <div class="card-body" >
+                            <h3 class="text-center"><i class="fab fa-internet-explorer" style="zoom: 1.0;padding: 5px;"></i>安全导航页面</h3>
+                            <img class="border shadow" src="{% static 'img/index_show/navigation.png' %}">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card">
+                        <div class="card-body" >
+                            <h3 class="text-center"><i class="fas fa-stream" style="zoom: 1.0;padding: 5px;"></i>目录识别页面</h3>
+                            <img class="border shadow" src="{% static 'img/index_show/dir.png' %}">
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+    <script src="{% static 'theme/macarons.js' %}"></script>
+    <!--高危-->
+    <script>
+        var options = {
+         series: [30],
+          chart: {
+          height: 250,
+          type: 'radialBar',
+        },
+          plotOptions: {
+          radialBar: {
+            startAngle: -135,
+            endAngle: 225,
+             hollow: {
+              margin: 0,
+              size: '70%',
+              background: '#fff',
+              image: undefined,
+              imageOffsetX: 0,
+              imageOffsetY: 0,
+              position: 'front',
+              dropShadow: {
+                enabled: true,
+                top: 3,
+                left: 0,
+                blur: 4,
+                opacity: 0.24
+              }
+            },
+            track: {
+              background: '#fff',
+              strokeWidth: '67%',
+              margin: 0, // margin is in pixels
+              dropShadow: {
+                enabled: true,
+                top: -3,
+                left: 0,
+                blur: 4,
+                opacity: 0.35
+              }
+            },
+
+            dataLabels: {
+              show: true,
+              name: {
+                offsetY: -10,
+                show: true,
+                color: '#888',
+                fontSize: '17px'
+              },
+              value: {
+                formatter: function(val) {
+                  return parseInt(val);
+                },
+                color: '#111',
+                fontSize: '36px',
+                show: true,
+              }
+            }
+          }
+        },
+        fill: {
+          colors: ['#F44336',],
+        },
+        stroke: {
+          lineCap: 'round'
+        },
+        labels: ['高危漏洞'],
+        };
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+        $.post('/get_vuln_value', function (data) {
+                chart.updateOptions({
+                 series: [data['normal'][0]],
+                });
+        });
+    </script>
+    <!--中危-->
+    <script>
+        var options = {
+         series: [50],
+          chart: {
+          height: 250,
+          type: 'radialBar',
+        },
+          plotOptions: {
+          radialBar: {
+            startAngle: -135,
+            endAngle: 225,
+             hollow: {
+              margin: 0,
+              size: '70%',
+              background: '#fff',
+              image: undefined,
+              imageOffsetX: 0,
+              imageOffsetY: 0,
+              position: 'front',
+              dropShadow: {
+                enabled: true,
+                top: 3,
+                left: 0,
+                blur: 4,
+                opacity: 0.24
+              }
+            },
+            track: {
+              background: '#fff',
+              strokeWidth: '67%',
+              margin: 0, // margin is in pixels
+              dropShadow: {
+                enabled: true,
+                top: -3,
+                left: 0,
+                blur: 4,
+                opacity: 0.35
+              }
+            },
+
+            dataLabels: {
+              show: true,
+              name: {
+                offsetY: -10,
+                show: true,
+                color: '#888',
+                fontSize: '17px'
+              },
+              value: {
+                formatter: function(val) {
+                  return parseInt(val);
+                },
+                color: '#111',
+                fontSize: '36px',
+                show: true,
+              }
+            }
+          }
+        },
+        fill: {
+          colors: ['#EFBD77',],
+        },
+        stroke: {
+          lineCap: 'round'
+        },
+        labels: ['中危漏洞'],
+        };
+        var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
+        chart2.render();
+        $.post('/get_vuln_value', function (data) {
+                chart2.updateOptions({
+                 series: [data['normal'][2]],
+                })
+        });
+    </script>
+    <!--低危-->
+    <script>
+        var options = {
+         series: [60],
+          chart: {
+          height: 250,
+          type: 'radialBar',
+        },
+          plotOptions: {
+          radialBar: {
+            startAngle: -135,
+            endAngle: 225,
+             hollow: {
+              margin: 0,
+              size: '70%',
+              background: '#fff',
+              image: undefined,
+              imageOffsetX: 0,
+              imageOffsetY: 0,
+              position: 'front',
+              dropShadow: {
+                enabled: true,
+                top: 3,
+                left: 0,
+                blur: 4,
+                opacity: 0.24
+              }
+            },
+            track: {
+              background: '#fff',
+              strokeWidth: '67%',
+              margin: 0, // margin is in pixels
+              dropShadow: {
+                enabled: true,
+                top: -3,
+                left: 0,
+                blur: 4,
+                opacity: 0.35
+              }
+            },
+
+            dataLabels: {
+              show: true,
+              name: {
+                offsetY: -10,
+                show: true,
+                color: '#888',
+                fontSize: '17px'
+              },
+              value: {
+                formatter: function(val) {
+                  return parseInt(val);
+                },
+                color: '#111',
+                fontSize: '36px',
+                show: true,
+              }
+            }
+          }
+        },
+        fill: {
+          colors: ['#33CFFF',],
+        },
+        stroke: {
+          lineCap: 'round'
+        },
+        labels: ['低危漏洞'],
+        };
+        var chart3 = new ApexCharts(document.querySelector("#chart3"), options);
+        chart3.render();
+        $.post('/get_vuln_value', function (data) {
+                chart3.updateOptions({
+                 series: [data['normal'][1]],
+                });
+        });
+    </script>
+    <!--指纹-->
+    <script>
+        var options = {
+          series: [{
+          name: '数量',
+          color: ['#b4d9fb'],
+          data: [{% for category in categories %}{{category.get_items}},{% endfor %}],}
+        ],
+        chart: {
+          height: 300,
+          type: 'bar',
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '50%',
+          }
+        },
+        dataLabels: {
+          enabled: true,
+        },
+        stroke: {
+          width: 2,
+        },
+        grid: {
+          row: {
+            colors: ['#fff', '#f2f2f2']
+          }
+        },
+        xaxis: {
+          labels: {
+            rotate: -45
+          },
+          categories: [{% for category in categories %}"{{category.name}}",{% endfor %}],
+          tickPlacement: 'on'
+        },
+        yaxis: {
+          title: {
+            text: '数量',
+          },
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shade: 'light',
+            type: "horizontal",
+            shadeIntensity: 0.25,
+            gradientToColors: undefined,
+            inverseColors: true,
+            opacityFrom: 0.85,
+            opacityTo: 0.85,
+            stops: [50, 0, 100],
+          },
+        }
+        };
+        var chart4 = new ApexCharts(document.querySelector("#chart4"), options);
+        chart4.render();
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        window.ApexCharts && (new ApexCharts(document.getElementById('chart5'), {
+            chart: {
+                type: "donut",
+                fontFamily: 'inherit',
+                height: 345,
+                sparkline: {
+                    enabled: true
+                },
+                animations: {
+                    enabled: false
+                },
+            },
+            fill: {
+                opacity: 1,
+            },
+            series: [{% for category in categories %}{{category.get_items}},{% endfor %}],
+            labels: [{% for category in categories %}"{{category.name}}",{% endfor %}],
+            grid: {
+                strokeDashArray: 4,
+            },
+            colors: ["#206bc4", "#79a6dc", "#d2e1f3", "#e9ecf1"],
+           // colors: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#b4d9fb', '#f51c47', '#26A69A'],
+            legend: {
+                show: true,
+                position: 'bottom',
+                offsetY: 12,
+                markers: {
+                    width: 10,
+                    height: 10,
+                    radius: 100,
+                },
+                itemMargin: {
+                    horizontal: 8,
+                    vertical: 8
+                },
+            },
+            tooltip: {
+                fillSeriesColor: false
+            },
+        })).render();
+      });
+    </script>
+    <!--安全导航-->
+    <script>
+        // 基于准备好的dom，初始化echarts实例
+        var myChart1 = echarts.init(document.getElementById('item_num1'),'macarons');
+        // 指定图表的配置项和数据
+        var option1 = {
+            title: {
+                text: '条目数量统计',
+                top: -2,
+                x: 'center',
+            },
+            tooltip: {},
+            toolbox: {
+                show: true,
+                right: 50,
+                feature: {
+                    dataView: {readOnly: false},//数据视图工具
+                    magicType: {type: ['line', 'bar']},//动态类型切换
+                    restore: {},      //配置项还原。
+                    saveAsImage: {}, //保存为图片
+                }
+            },
+            xAxis: {
+                data: [{% for category in category_nav %}"{{category.name}}",{% endfor %}]
+            },
+            yAxis: {},
+            series: [{
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值',itemStyle: {color: ['#3ecf8e']},},
+                        {type: 'min', name: '最小值',itemStyle: {color: ['#fa755a']},}
+                    ]
+                },
+                markLine: {
+                   data: [
+                        {type: 'average', name: '平均值',itemStyle: {color: ['#ab47bc']},}
+                    ]
+                },
+                color: ['#b4d9fb'],
+                name: '条目个数',
+                type: 'bar',
+                data: [{% for category in category_nav %}{{category.get_items}},{% endfor %}]
+            }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart1.setOption(option1);
+
+        //饼图
+        var myChart2 = echarts.init(document.getElementById('item_num2'),'macarons');
+        var option2 = {
+            title: {
+                text: '分类统计',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'horizontal',
+                top: 'bottom',
+                padding: 55,
+            },
+            toolbox: {
+                show: true,
+                right: 50,
+                feature: {
+                    dataView: {readOnly: false},
+                    saveAsImage: {}, //保存为图片
+                }
+            },
+            series: [
+                {
+                    {#color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],#}
+                    name: '分类',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [
+                        {% for category in category_nav %}{value: {{ category.get_items }}, name: '{{category.name}}'},{% endfor %}
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        myChart2.setOption(option2);
+        //让图表自适应屏幕
+        window.addEventListener("resize",function () {
+            myChart1.resize();
+            myChart2.resize();
+        });
+</script>
+{% endblock %}
+
+

@@ -1,0 +1,498 @@
+{#@Time:2021/2/03 11:36#}
+{#@Author:简简#}
+{#@File：webside.html#}
+{#@software:PyCharm#}
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %} 旁站探测 {% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block contents %}
+<div class="container-xl " >
+        <!-- 产品信息卡片 -->
+        <div class="card card-lg " >
+            <div class="card-body" >
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
+                        </svg>
+                  </div>
+                <!--标题&介绍-->
+                <div class="d-flex flex-row justify-content-center" {#style="margin-top: 180px;"#}>
+                    <div class="p-2"><i class="fas fa-network-wired " style="zoom: 2.2;"></i></div>
+                    <div class="p-2"><h1> 旁站探测 </h1></div>
+                    <br>
+                </div>
+                <p class="text-center">通过 IP 地址，直接获取与当前 IP 所在服务器上的其它的网站！
+                    <!-- 提示框 -->
+                    <span class="form-help" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="right" data-html="true"
+                          data-content="<p>端口扫描是指某些别有用心的人发送一组端口扫描消息，试图以此侵入某台计算机，并了解其提供的计算机网络服务类型。攻击者可以通过它了解到从哪里可探寻到攻击弱点。</p>
+                          <p class='mb-0'><a href='https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/11056182?fr=aladdin'>详情</a></p>">?
+                    </span>
+                </p>
+            </div>
+        </div>
+        <!-- 输入框卡片 -->
+        <div class="card card-lg "  {#style="background-color:rgba(0,0,0,0);" #}>
+            <div class="card-body">
+                <!-- 卡片边缘缎带 -->
+                <div class="ribbon ribbon-top ribbon-left bg-azure">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <circle cx="10" cy="10" r="7" />
+                      <line x1="21" y1="21" x2="15" y2="15" />
+                    </svg>
+                </div>
+                <!-- 输入框 -->
+                <div class="input-icon mb-3 float-left" style="width: 80%">
+                   <span class="input-icon-addon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>
+                    </span>
+                     <input type="text" name="siteip" minlength="15" maxlength="15" required=""  placeholder="请输入正确的IP地址" autocomplete="off" class="form-control  form-control-lg">
+                </div>
+                <!-- 按钮 -->
+                <button class="scan-btn btn btn-lg btn-indigo float-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>
+                    旁站检测
+                </button>
+            </div>
+        </div>
+        <!-- 扫描结果卡片 -->
+        <div class="scan-result" style="display: none;">
+            <div class="card card-sm " >
+                <div class="card-body">
+                    <!-- 卡片边缘缎带 -->
+                    <div class="ribbon ribbon-top ribbon-left  bg-azure">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-comet" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M15.5 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z" />
+                          <line x1="4" y1="4" x2="11" y2="11" />
+                          <line x1="9" y1="4" x2="12.5" y2="7.5" />
+                          <line x1="4" y1="9" x2="7.5" y2="12.5" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title text-center">查询结果</h3>
+                        <table class="table table-bordered">
+                            <tbody style="text-align: center;">
+                            <tr style="text-align: center;">
+                                <td class="table-primary">网站标题</td> <td class="table-primary">同IP网站URL</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 地图 -->
+    <div class="row row-deck row-cards">
+        <div class="col-lg-6">
+            <div class="card">
+            <div class="card-body">
+                <div id="world" style="height: 500px"></div>
+            </div>
+            </div>
+        </div>
+
+       <div class="col-lg-6">
+            <div class="card">
+            <div class="card-body">
+                  <div id="china" style="height: 500px"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+{#<div class="test233" style="color: red">test</div>#}
+
+</div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- 消息弹层组件 依赖jquery -->
+    <script src="{% static 'plugins/layer/layer.js' %}"></script>
+    <!-- 点击查询按钮页面向下滑到底部 依赖jquery -->
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+            $('.scan-btn').click(function(){$('html,body').animate({scrollTop:$('.footer').offset().top}, 100);}); //100ms
+        });
+    </script>
+    <!-- 回车键查询按钮触发 依赖jquery -->
+    <script type="text/javascript">
+            $(document).keydown(function(event) {
+                    if (event.keyCode == 13) {
+                        $(".scan-btn").click();
+                    }
+                });
+        </script>
+    <!-- 查询按钮事件 -->
+    <script type="text/javascript">
+        function get_webside_info(ip) {
+            $.post('/webscan_backend/web_side',{
+                ip: ip
+            }, function(data){
+                if(data.code !== 200){
+                    $('tbody tr:first').html("<td class='table-primary'><strong>网站标题</strong></td><td class='table-primary'><strong>同IP网站URL</strong></td>");
+                    $.each(data.data, function(index, obj){
+                        $('tbody').append('<tr><td> ' + obj['title'] + ' </td> <td><a href="https://' + obj['domain'] +'" target="_blank" title="点击跳转"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>' + obj['domain'] + '</a></td></tr>');
+                    });
+                    layer.msg('查询成功',{icon: 1,offset: '220px',area: ['70px', '70px']});
+                } else {
+                    layer.msg(data.data);
+                    $('input[name=siteip]').val('');
+                }
+                $(".scan-btn").text('重新扫描');
+                $('.scan-btn').attr('disabled', false);
+            });
+        }
+        function get_ip_location(ip) {
+            $.post('/webscan_backend/iplocating',{
+                ip: ip
+            }, function(data){
+                $('.test233').text(data.data);
+                console.log(data.data[0]);
+            });
+        }
+        $(function () {
+            $(".scan-btn").click(function () {
+                $(this).attr('disabled', true);
+                var ip_addr = $('input[name=siteip]').val();
+                if(ip_addr){
+                    // 校验当前网址是否正确/符合规范
+                    // coding ...
+                    if($('.scan-btn').text() == '重新扫描') {
+                        $("tbody tr:not(:first)").remove();
+                    }
+                    //$(this).text('请稍等');
+                    $(this).html('请稍等<span class="spinner-border spinner-border-sm me-2 bg-azure" role="status"></span>');
+                    $('tbody').html('<tr><td><div class="hr-text">正在扫描，请耐心等待 </div><div class="progress progress-lg progress-bar-striped active"><div class="progress-bar progress-bar-indeterminate"></div></div></td></tr>');
+                    $('.scan-result').show();
+                    get_webside_info(ip_addr);
+                    get_ip_location(ip_addr);
+                } else {
+                    $('input[name=siteip]').val('');
+                    layer.msg('请输入正确的IP地址，IP查询更精准！');
+                    $(".scan-btn").text('获取旁站');
+                    $(".scan-btn").attr('disabled', false);
+                }
+            });
+        });
+    </script>
+
+    <script>
+      // @formatter:on
+      document.addEventListener("DOMContentLoaded", function() {
+      	$('#map-world').vectorMap({
+      		map: 'world_en',
+      		backgroundColor: 'transparent',
+      		color: 'rgba(120, 130, 140, .1)',
+      		borderColor: 'transparent',
+      		scaleColors: ["#d2e1f3", "#206bc4"],
+      		normalizeFunction: 'polynomial',
+      		values: (chart_data = {"af":16, "al":11, "dz":158, "ao":85, "ag":1, "ar":351, "am":8, "au":1219, "at":366, "az":52, "bs":7, "bh":21, "bd":105, "bb":3, "by":52, "be":461, "bz":1, "bj":6, "bt":1, "bo":19, "ba":16, "bw":12, "br":2023, "bn":11, "bg":44, "bf":8, "bi":1, "kh":11, "cm":21, "ca":1563, "cv":1, "cf":2, "td":7, "cl":199, "cn":5745, "co":283, "km":0, "cd":12, "cg":11, "cr":35, "ci":22, "hr":59, "cy":22, "cz":195, "dk":304, "dj":1, "dm":0, "do":50, "ec":61, "eg":216, "sv":21, "gq":14, "er":2, "ee":19, "et":30, "fj":3, "fi":231, "fr":2555, "ga":12, "gm":1, "ge":11, "de":3305, "gh":18, "gr":305, "gd":0, "gt":40, "gn":4, "gw":0, "gy":2, "ht":6, "hn":15, "hk":226, "hu":132, "is":12, "in":1430, "id":695, "ir":337, "iq":84, "ie":204, "il":201, "it":2036, "jm":13, "jp":5390, "jo":27, "kz":129, "ke":32, "ki":0, "kr":986, "undefined":5, "kw":117, "kg":4, "la":6, "lv":23, "lb":39, "ls":1, "lr":0, "ly":77, "lt":35, "lu":52, "mk":9, "mg":8, "mw":5, "my":218, "mv":1, "ml":9, "mt":7, "mr":3, "mu":9, "mx":1004, "md":5, "mn":5, "me":3, "ma":91, "mz":10, "mm":35, "na":11, "np":15, "nl":770, "nz":138, "ni":6, "ne":5, "ng":206, "no":413, "om":53, "pk":174, "pa":27, "pg":8, "py":17, "pe":153, "ph":189, "pl":438, "pt":223, "qa":126, "ro":158, "ru":1476, "rw":5, "ws":0, "st":0, "sa":434, "sn":12, "rs":38, "sc":0, "sl":1, "sg":217, "sk":86, "si":46, "sb":0, "za":354, "es":1374, "lk":48, "kn":0, "lc":1, "vc":0, "sd":65, "sr":3, "sz":3, "se":444, "ch":522, "sy":59, "tw":426, "tj":5, "tz":22, "th":312, "tl":0, "tg":3, "to":0, "tt":21, "tn":43, "tr":729, "tm":0, "ug":17, "ua":136, "ae":239, "gb":2258, "us":4624, "uy":40, "uz":37, "vu":0, "ve":285, "vn":101, "ye":30, "zm":15, "zw":5}),
+      		onLabelShow: function (event, label, code) {
+      			if (chart_data[code] > 0) {
+      				label.append(': <strong>' + chart_data[code] + '</strong>');
+      			}
+      		},
+      	});
+      });
+      // @formatter:off
+    </script>
+
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+    <script src="{% static 'theme/macarons.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js?_v_=1598903772045"></script>
+    <script src="{% static 'js/world.js' %}"></script>
+    <script>
+    var myChart = echarts.init(document.getElementById('china'));
+    // 指定图表的配置项和数据
+    option = {
+      title: {
+        text: 'IP归属地',
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'right',
+        data: ['IP归属地']
+      },
+      roamController: {
+        show: true,
+        left: 'right',
+        mapTypeControl: {
+          'china': true
+        }
+      },
+
+      series: [
+        {
+          name: '地址',
+          type: 'map',
+          mapType: 'china',
+          roam: false,
+          color:'red',
+          label: {
+            show: true,
+            {#color: 'rgb(249, 249, 249)'#}
+          },
+          itemStyle: {
+                normal: {//未选中状态
+                    borderWidth:2,//边框大小
+                    borderColor:'#C2D6EF',
+                    areaColor: '#4A87CF',//背景颜色
+                    label: {
+                        show: true//显示名称
+                    }
+                },
+                emphasis: {// 也是选中样式
+                    borderWidth:2,
+                    borderColor:'red',
+                    areaColor: '#2ec7c9',
+                    label: {
+                        show: true,
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    }
+                 }
+                },
+          data: [//实时数据放在这里，格式如下...
+             {
+               name: '四川',
+               value: '12',
+             }
+          ]
+        }
+      ]
+    };
+    myChart.setOption(option);
+
+  </script>
+    <script>
+var myChart2 = echarts.init(document.getElementById('world'));
+        option2 = {
+            title: {
+
+
+                sublink: 'http://esa.un.org/wpp/Excel-Data/population.htm',
+                left: 'center',
+                top: 'top'
+            },
+           /* tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    var value = (params.value + '').split('.');
+                    value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,')
+                            + '.' + value[1];
+                    return params.seriesName + '<br/>' + params.name + ' : ' + value;
+                }
+            },*/
+            visualMap: {
+                min: 0,
+                max: 1000000,
+                text:['High','Low'],
+                realtime: false,
+                calculable: true,
+                color: ['orangered','yellow','lightskyblue']
+            },
+            series: [
+                {
+                    name: 'World Population (2010)',
+                    type: 'map',
+                    mapType: 'world',
+                    roam: true,
+                    itemStyle:{
+                        emphasis:{label:{show:true}}
+                    },
+                    data: [
+                    {name: 'Afghanistan', value: 28397.812},
+                    {name: 'Angola', value: 19549.124},
+                    {name: 'Albania', value: 3150.143},
+                    {name: 'United Arab Emirates', value: 8441.537},
+                    {name: 'Argentina', value: 40374.224},
+                    {name: 'Armenia', value: 2963.496},
+                    {name: 'French Southern and Antarctic Lands', value: 268.065},
+                    {name: 'Australia', value: 22404.488},
+                    {name: 'Austria', value: 8401.924},
+                    {name: 'Azerbaijan', value: 9094.718},
+                    {name: 'Burundi', value: 9232.753},
+                    {name: 'Belgium', value: 10941.288},
+                    {name: 'Benin', value: 9509.798},
+                    {name: 'Burkina Faso', value: 15540.284},
+                    {name: 'Bangladesh', value: 151125.475},
+                    {name: 'Bulgaria', value: 7389.175},
+                    {name: 'The Bahamas', value: 66402.316},
+                    {name: 'Bosnia and Herzegovina', value: 3845.929},
+                    {name: 'Belarus', value: 9491.07},
+                    {name: 'Belize', value: 308.595},
+                    {name: 'Bermuda', value: 64.951},
+                    {name: 'Bolivia', value: 716.939},
+                    {name: 'Brazil', value: 195210.154},
+                    {name: 'Brunei', value: 27.223},
+                    {name: 'Bhutan', value: 716.939},
+                    {name: 'Botswana', value: 1969.341},
+                    {name: 'Central African Republic', value: 4349.921},
+                    {name: 'Canada', value: 34126.24},
+                    {name: 'Switzerland', value: 7830.534},
+                    {name: 'Chile', value: 17150.76},
+                    {name: 'China', value: 1359821.465},
+                    {name: 'Ivory Coast', value: 60508.978},
+                    {name: 'Cameroon', value: 20624.343},
+                    {name: 'Democratic Republic of the Congo', value: 62191.161},
+                    {name: 'Republic of the Congo', value: 3573.024},
+                    {name: 'Colombia', value: 46444.798},
+                    {name: 'Costa Rica', value: 4669.685},
+                    {name: 'Cuba', value: 11281.768},
+                    {name: 'Northern Cyprus', value: 1.468},
+                    {name: 'Cyprus', value: 1103.685},
+                    {name: 'Czech Republic', value: 10553.701},
+                    {name: 'Germany', value: 83017.404},
+                    {name: 'Djibouti', value: 834.036},
+                    {name: 'Denmark', value: 5550.959},
+                    {name: 'Dominican Republic', value: 10016.797},
+                    {name: 'Algeria', value: 37062.82},
+                    {name: 'Ecuador', value: 15001.072},
+                    {name: 'Egypt', value: 78075.705},
+                    {name: 'Eritrea', value: 5741.159},
+                    {name: 'Spain', value: 46182.038},
+                    {name: 'Estonia', value: 1298.533},
+                    {name: 'Ethiopia', value: 87095.281},
+                    {name: 'Finland', value: 5367.693},
+                    {name: 'Fiji', value: 860.559},
+                    {name: 'Falkland Islands', value: 49.581},
+                    {name: 'France', value: 63230.866},
+                    {name: 'Gabon', value: 1556.222},
+                    {name: 'United Kingdom', value: 62066.35},
+                    {name: 'Georgia', value: 4388.674},
+                    {name: 'Ghana', value: 24262.901},
+                    {name: 'Guinea', value: 10876.033},
+                    {name: 'Gambia', value: 1680.64},
+                    {name: 'Guinea Bissau', value: 10876.033},
+                    {name: 'Equatorial Guinea', value: 696.167},
+                    {name: 'Greece', value: 11109.999},
+                    {name: 'Greenland', value: 56.546},
+                    {name: 'Guatemala', value: 14341.576},
+                    {name: 'French Guiana', value: 231.169},
+                    {name: 'Guyana', value: 786.126},
+                    {name: 'Honduras', value: 7621.204},
+                    {name: 'Croatia', value: 4338.027},
+                    {name: 'Haiti', value: 9896.4},
+                    {name: 'Hungary', value: 10014.633},
+                    {name: 'Indonesia', value: 240676.485},
+                    {name: 'India', value: 1205624.648},
+                    {name: 'Ireland', value: 4467.561},
+                    {name: 'Iran', value: 240676.485},
+                    {name: 'Iraq', value: 30962.38},
+                    {name: 'Iceland', value: 318.042},
+                    {name: 'Israel', value: 7420.368},
+                    {name: 'Italy', value: 60508.978},
+                    {name: 'Jamaica', value: 2741.485},
+                    {name: 'Jordan', value: 6454.554},
+                    {name: 'Japan', value: 127352.833},
+                    {name: 'Kazakhstan', value: 15921.127},
+                    {name: 'Kenya', value: 40909.194},
+                    {name: 'Kyrgyzstan', value: 5334.223},
+                    {name: 'Cambodia', value: 14364.931},
+                    {name: 'South Korea', value: 51452.352},
+                    {name: 'Kosovo', value: 97.743},
+                    {name: 'Kuwait', value: 2991.58},
+                    {name: 'Laos', value: 6395.713},
+                    {name: 'Lebanon', value: 4341.092},
+                    {name: 'Liberia', value: 3957.99},
+                    {name: 'Libya', value: 6040.612},
+                    {name: 'Sri Lanka', value: 20758.779},
+                    {name: 'Lesotho', value: 2008.921},
+                    {name: 'Lithuania', value: 3068.457},
+                    {name: 'Luxembourg', value: 507.885},
+                    {name: 'Latvia', value: 2090.519},
+                    {name: 'Morocco', value: 31642.36},
+                    {name: 'Moldova', value: 103.619},
+                    {name: 'Madagascar', value: 21079.532},
+                    {name: 'Mexico', value: 117886.404},
+                    {name: 'Macedonia', value: 507.885},
+                    {name: 'Mali', value: 13985.961},
+                    {name: 'Myanmar', value: 51931.231},
+                    {name: 'Montenegro', value: 620.078},
+                    {name: 'Mongolia', value: 2712.738},
+                    {name: 'Mozambique', value: 23967.265},
+                    {name: 'Mauritania', value: 3609.42},
+                    {name: 'Malawi', value: 15013.694},
+                    {name: 'Malaysia', value: 28275.835},
+                    {name: 'Namibia', value: 2178.967},
+                    {name: 'New Caledonia', value: 246.379},
+                    {name: 'Niger', value: 15893.746},
+                    {name: 'Nigeria', value: 159707.78},
+                    {name: 'Nicaragua', value: 5822.209},
+                    {name: 'Netherlands', value: 16615.243},
+                    {name: 'Norway', value: 4891.251},
+                    {name: 'Nepal', value: 26846.016},
+                    {name: 'New Zealand', value: 4368.136},
+                    {name: 'Oman', value: 2802.768},
+                    {name: 'Pakistan', value: 173149.306},
+                    {name: 'Panama', value: 3678.128},
+                    {name: 'Peru', value: 29262.83},
+                    {name: 'Philippines', value: 93444.322},
+                    {name: 'Papua New Guinea', value: 6858.945},
+                    {name: 'Poland', value: 38198.754},
+                    {name: 'Puerto Rico', value: 3709.671},
+                    {name: 'North Korea', value: 1.468},
+                    {name: 'Portugal', value: 10589.792},
+                    {name: 'Paraguay', value: 6459.721},
+                    {name: 'Qatar', value: 1749.713},
+                    {name: 'Romania', value: 21861.476},
+                    {name: 'Russia', value: 21861.476},
+                    {name: 'Rwanda', value: 10836.732},
+                    {name: 'Western Sahara', value: 514.648},
+                    {name: 'Saudi Arabia', value: 27258.387},
+                    {name: 'Sudan', value: 35652.002},
+                    {name: 'South Sudan', value: 9940.929},
+                    {name: 'Senegal', value: 12950.564},
+                    {name: 'Solomon Islands', value: 526.447},
+                    {name: 'Sierra Leone', value: 5751.976},
+                    {name: 'El Salvador', value: 6218.195},
+                    {name: 'Somaliland', value: 9636.173},
+                    {name: 'Somalia', value: 9636.173},
+                    {name: 'Republic of Serbia', value: 3573.024},
+                    {name: 'Suriname', value: 524.96},
+                    {name: 'Slovakia', value: 5433.437},
+                    {name: 'Slovenia', value: 2054.232},
+                    {name: 'Sweden', value: 9382.297},
+                    {name: 'Swaziland', value: 1193.148},
+                    {name: 'Syria', value: 7830.534},
+                    {name: 'Chad', value: 11720.781},
+                    {name: 'Togo', value: 6306.014},
+                    {name: 'Thailand', value: 66402.316},
+                    {name: 'Tajikistan', value: 7627.326},
+                    {name: 'Turkmenistan', value: 5041.995},
+                    {name: 'East Timor', value: 10016.797},
+                    {name: 'Trinidad and Tobago', value: 1328.095},
+                    {name: 'Tunisia', value: 10631.83},
+                    {name: 'Turkey', value: 72137.546},
+                    {name: 'United Republic of Tanzania', value: 44973.33},
+                    {name: 'Uganda', value: 33987.213},
+                    {name: 'Ukraine', value: 46050.22},
+                    {name: 'Uruguay', value: 3371.982},
+                    {name: 'United States of America', value: 312247.116},
+                    {name: 'Uzbekistan', value: 27769.27},
+                    {name: 'Venezuela', value: 236.299},
+                    {name: 'Vietnam', value: 89047.397},
+                    {name: 'Vanuatu', value: 236.299},
+                    {name: 'West Bank', value: 13.565},
+                    {name: 'Yemen', value: 22763.008},
+                    {name: 'South Africa', value: 51452.352},
+                    {name: 'Zambia', value: 13216.985},
+                    {name: 'Zimbabwe', value: 13076.978}
+                    ]
+                }
+            ]
+        };
+        myChart2.setOption(option2);
+    </script>
+{% endblock %}
