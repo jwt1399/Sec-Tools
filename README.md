@@ -772,7 +772,7 @@ class Category(models.Model):
 
 1.使用 Pycharm 打开本项目，在 Pycharm 的 `setting`--->`Project Interpreter`中 add 一个新的虚拟环境。
 
-2.在该虚拟环下打开 Pycharm 自带 Terminal 运行 `pip install -r requirements.txt` 下载项目所需的第三方包。
+2.在该虚拟环境下打开 Pycharm 自带 Terminal 运行 `pip install -r requirements.txt` 下载项目所需的第三方包。
 
 3.现在项目已经可以正常运行了，但是想要使用漏洞扫描功能，需要安装AWVS，并在项目的`setting.py` 中配置 AWVS的 `API URL`和`API KEY`
 
