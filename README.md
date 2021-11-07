@@ -538,7 +538,7 @@ class PortListAdmin(ImportExportModelAdmin):
 
 ### 实现效果
 
-![finger](../images/毕设进程/finger.png)
+![finger](https://jwt1399.top/images/%E6%AF%95%E8%AE%BE%E8%BF%9B%E7%A8%8B/finger.png)
 
 ### 详细实现
 
