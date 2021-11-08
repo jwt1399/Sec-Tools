@@ -1,11 +1,15 @@
-
-# Sec-Tools
+<h1 align="center" >Sec-Tool</h1>
+<p align="center">
+	<a href="https://github.com/jwt1399/Sec-Tools"><img alt="Sec-Tools" src="https://img.shields.io/github/stars/jwt1399/Sec-Tools.svg"></a>
+	<a href="https://github.com/jwt1399/Sec-Tools"><img alt="Sec-Tools" src="https://img.shields.io/github/forks/jwt1399/Sec-Tools.svg"></a>
+</p>
+<p align="center"><span>如果你觉得本项目还不错的话，请给一个❤️Star & Fork❤️吧，感谢感谢🤝</span></p>
 
 ## 项目介绍
 
 ### 系统简介
 
-本项目命名为**Sec-Tools**，是一款基于 Python-Django 的在线多功能 Web 应用渗透测试系统，包含**漏洞检测、目录识别、端口扫描、指纹识别、域名探测、旁站探测、信息泄露检测**等功能。
+本项目命名为**Sec-Tools**，是一款基于 **Python-Django** 的多功能 Web 应用渗透测试系统，包含**漏洞检测、目录识别、端口扫描、指纹识别、域名探测、旁站探测、信息泄露检测**等功能。
 
 ###  相关技术
 
@@ -808,10 +812,10 @@ DEFAULT_FROM_EMAIL = 'xxx'    # 你的邮箱账号
 - [ ] 漏洞报告导出功能
 - [ ] 页面异步刷新
 
-## 感谢
-
-本项目参考和借鉴了许多师傅的思路/文章/项目，在此感谢给予帮助的大家!!!
-最后本项目仅供参考学习！！！
+## 声明 & 感谢
+- 本项目仅供学习, 测试, 交流使用, 勿用于非法用途。
+- 请使用者遵守《中华人民共和国网络安全法》，勿用于非授权测试，如作他用所承受的法律责任一概与作者无关，下载使用即代表使用者同意上述观点。
+- 本项目参考和借鉴和参考了许多师傅的思路/文章/项目，在此感谢给予帮助的大家!!!
 
 ## 赞助💰
 
