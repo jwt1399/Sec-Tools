@@ -1,4 +1,4 @@
-<h1 align="center" >Sec-Tool</h1>
+<h1 align="center" >🍉Sec-Tools</h1>
 <p align="center">
 	<a href="https://github.com/jwt1399/Sec-Tools"><img alt="Sec-Tools" src="https://img.shields.io/github/stars/jwt1399/Sec-Tools.svg"></a>
 	<a href="https://github.com/jwt1399/Sec-Tools"><img alt="Sec-Tools" src="https://img.shields.io/github/forks/jwt1399/Sec-Tools.svg"></a>
