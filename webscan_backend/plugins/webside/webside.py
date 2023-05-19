@@ -18,13 +18,9 @@ def get_side_info(ip):
     :param ip:
     :return:
     """
-    api_url = 'http://api.webscan.cc/'
-    query_data = {
-        'action': 'query',
-        'ip': ip
-    }
+    api_url = 'http://api.webscan.cc/?action=query&ip={}'.format(ip)
     try:
-        html = requests.post(api_url, data=query_data, headers=header, timeout=8)
+        html = requests.get(api_url, headers=header, timeout=8)
         text = html.text
         # 去掉text首部的BOM字符
         if text.startswith(u'\ufeff'):
