@@ -10,10 +10,10 @@
  <table>
    <tbody>
       <tr>
-          <td style="text-align:center;">简文涛</td>
-          <td style="text-align:center;">邓俊</td>
-		  <td style="text-align:center;">王朝扬</td>
-		  <td style="text-align:center;">林承毅</td>
+          <td style="text-align:center;">简～</td>
+          <td style="text-align:center;">邓～</td>
+		  <td style="text-align:center;">王～</td>
+		  <td style="text-align:center;">林～</td>
       </tr>
     <tr>
 		<td style="text-align:center;" ><img class="inverted" width="200" src="https://jwt1399.top/medias/avatar.png"></td>    
